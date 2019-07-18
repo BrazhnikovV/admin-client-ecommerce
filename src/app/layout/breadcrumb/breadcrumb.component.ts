@@ -1,27 +1,25 @@
+'use strict';
 import { Component, OnInit } from '@angular/core';
 import { Router, Routes, NavigationEnd } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { filter } from 'rxjs/operators';
 
 /**
- * @class - BreadcrumbComponent
- * @classdesc - компонент для отображения хлебных крошек
+ * @classdesc - BreadcrumbComponent компонент для отображения хлебных крошек
  */
 @Component({
   selector:    'app-breadcrumb',
   templateUrl: './breadcrumb.component.html',
-  styleUrls:   ['./breadcrumb.component.sass']
+  styleUrls:   ['./breadcrumb.component.css']
 })
 export class BreadcrumbComponent implements OnInit {
 
   /**
-   * @access private
    * @var MenuItem[] itemsBreadCrumb
    */
-  private itemsBreadCrumb: MenuItem[] = [];
+  private _itemsBreadCrumb: MenuItem[] = [];
 
   /**
-   * @access private
    * @var Routes config
    */
   private config: Routes;
@@ -57,7 +55,7 @@ export class BreadcrumbComponent implements OnInit {
    */
   private init( url: String = '' ) {
 
-    this.itemsBreadCrumb = [{ label:'Home', url: '/', icon: 'pi pi-home' }];
+    this._itemsBreadCrumb = [{ label: 'Home', url: '/', icon: 'pi pi-home' }];
 
     this.config.map( item => {
 
@@ -67,8 +65,15 @@ export class BreadcrumbComponent implements OnInit {
       }
 
       if ( url === '/' + item.path ) {
-        this.itemsBreadCrumb.push({ label: breadCrumbName/*, routerLink: item.path*/ })
+        this._itemsBreadCrumb.push({ label: breadCrumbName/*, routerLink: item.path*/ });
       }
     });
+  }
+
+  /**
+   * itemsBreadCrumb
+   */
+  get itemsBreadCrumb(): MenuItem[] {
+    return this._itemsBreadCrumb;
   }
 }
