@@ -6,12 +6,12 @@ import { Routes, RouterModule } from '@angular/router';
  * @var routes: Routes - маршруты приложения
  */
 const routes: Routes = [
-  // {
-  //  path: '',
-  //  component: AppComponent,
-  //  data: {'breadCrumbName': 'Главная'},
+   {
+    path: 'customer',
+    loadChildren: 'src/app/customer/customer.module',
+    // data: {'breadCrumbName': 'Главная'},
   //  canActivate:[AppGuard]
-  // }
+   }
   // { path: '**', component: Page404Component },
 ];
 

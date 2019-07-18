@@ -28,32 +28,20 @@ export class LeftMenuComponent implements OnInit {
 
   ngOnInit() {
     this.items = [
-      { label: 'Категории', icon: 'pi pi-pw pi-list', items:
-        [
-          { label: 'Список категорий', icon: 'pi pi-pw pi-list', routerLink: '/category/list' },
-          { label: 'Добавить категорию', icon: 'pi pi-pw pi-user-plus', routerLink: '/category/create' }
-        ]
-      },
-      { label: 'Продукты', icon: 'pi pi-pw pi-bars', items:
-        [
-          { label: 'Список продуктов', icon: 'pi pi-pw pi-list', routerLink: '/products/list' },
-          { label: 'Добавить продукт', icon: 'pi pi-pw pi-user-plus', routerLink: '/products/create' }
-        ]
-      } ,
-      { label: 'Партнеры', icon: 'pi pi-pw pi-user-plus', items:
+      { label: 'Пользователи', icon: 'pi pi-pw pi-user', items:
           [
-            { label: 'Список партнеров', icon: 'pi pi-pw pi-list', routerLink: '/partners/list' },
-            { label: 'Добавить партнера', icon: 'pi pi-pw pi-user-plus', routerLink: '/partners/create' }
+            { label: 'Список пользователей', icon: 'pi pi-pw pi-user', routerLink: '/users' },
+            { label: 'Добавить пользователя', icon: 'pi pi-pw pi-user', routerLink: '/addusers' },
           ]
       },
-      { label: 'Шапка', icon: 'pi pi-pw pi-eject', items:
-          [
-            { label: 'Header', icon: 'pi pi-pw pi-list', routerLink: '/header' },
-          ]
+      { label: 'Адреса', icon: 'pi pi-pw pi-list', items:
+        [
+          { label: 'Список адресов', icon: 'pi pi-pw pi-list', routerLink: '/addresses' },
+        ]
       },
-      { label: 'Слайдер', icon: 'pi pi-pw pi-camera', items:
+      { label: 'Кредитные карты', icon: 'pi pi-pw pi-user-plus', items:
           [
-            { label: 'Slider', icon: 'pi pi-pw pi-list', routerLink: '/slider' },
+            { label: 'Список кредитных карт', icon: 'pi pi-pw pi-list', routerLink: '/credit-cards' },
           ]
       },
       { label: 'Заказы', icon: 'pi pi-pw pi-dollar', items:
@@ -61,10 +49,21 @@ export class LeftMenuComponent implements OnInit {
             { label: 'Список заказов', icon: 'pi pi-pw pi-list', routerLink: '/orders' },
           ]
       },
-      { label: 'Пользователи', icon: 'pi pi-pw pi-user', items:
+      { label: 'Счет фактуры', icon: 'pi pi-pw pi-eject', items:
           [
-            { label: 'Список заказов', icon: 'pi pi-pw pi-user', routerLink: '/users' },
+            { label: 'Список счет фактур', icon: 'pi pi-pw pi-list', routerLink: '/invoices' },
           ]
+      },
+      { label: 'Доставка', icon: 'pi pi-pw pi-camera', items:
+          [
+            { label: 'Список доставок ', icon: 'pi pi-pw pi-list', routerLink: '/shipments' },
+          ]
+      },
+      { label: 'Продукты', icon: 'pi pi-pw pi-bars', items:
+        [
+          { label: 'Список продуктов', icon: 'pi pi-pw pi-list', routerLink: '/products/list' },
+          { label: 'Добавить продукт', icon: 'pi pi-pw pi-user-plus', routerLink: '/products/create' }
+        ]
       }
     ];
   }
