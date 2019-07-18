@@ -1,7 +1,7 @@
 'use strict';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ListComponent } from '../shared/components/list/list.component';
+import { ListComponent } from '../../shared/components/list/list.component';
 
 /**
  * @var routes: Routes - массив маршрутов модуля
