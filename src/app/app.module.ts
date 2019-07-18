@@ -1,6 +1,7 @@
+'use strict';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import { RoutingModule } from '../router/routing.module';
 import { AppComponent } from './app.component';
 
 @NgModule({
@@ -8,7 +9,8 @@ import { AppComponent } from './app.component';
     AppComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    RoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

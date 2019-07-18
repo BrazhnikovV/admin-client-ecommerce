@@ -1,0 +1,28 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 text-left mt-3 text-center">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
+<div id="container" class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 text-left mt-3">
+      <!--<app-top-menu [username]="getName()" (childEvent)="logout($event)"></app-top-menu>-->
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3 mt-2">
+      <app-left-menu></app-left-menu>
+    </div>
+    <div class="col-md-9">
+      <div class="row mb-2">
+        <div class="col-md-12 mt-2">
+          <app-breadcrumb></app-breadcrumb>
+        </div>
+      </div>
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
