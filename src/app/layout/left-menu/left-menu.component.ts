@@ -14,12 +14,7 @@ export class LeftMenuComponent implements OnInit {
   /**
    * @var MenuItem[]
    */
-  private items: MenuItem[];
-
-  /**
-   * @var String currentPath
-   */
-  private currentPath: String;
+  private _items: MenuItem[];
 
   /**
    * constructor
@@ -27,11 +22,11 @@ export class LeftMenuComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    this.items = [
+    this._items = [
       { label: 'Пользователи', icon: 'pi pi-pw pi-user', items:
           [
-            { label: 'Список пользователей', icon: 'pi pi-pw pi-user', routerLink: '/users' },
-            { label: 'Добавить пользователя', icon: 'pi pi-pw pi-user', routerLink: '/addusers' },
+            { label: 'Список пользователей', icon: 'pi pi-pw pi-user', routerLink: '/customers' },
+            { label: 'Добавить пользователя', icon: 'pi pi-pw pi-user', routerLink: '/addcustomer' },
           ]
       },
       { label: 'Адреса', icon: 'pi pi-pw pi-list', items:
@@ -66,5 +61,12 @@ export class LeftMenuComponent implements OnInit {
         ]
       }
     ];
+  }
+
+  /**
+   * MenuItem
+   */
+  get items(): MenuItem[] {
+    return this._items;
   }
 }

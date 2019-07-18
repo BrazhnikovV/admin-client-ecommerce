@@ -1,14 +1,18 @@
 'use strict';
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { RoutingModule } from './router/routing.module';
+import { PanelMenuModule } from 'primeng/panelmenu';
 import { AppComponent } from './layout/app.component';
+import { BreadcrumbModule } from 'primeng/breadcrumb';
+import { RoutingModule } from './router/routing.module';
+import { BrowserModule } from '@angular/platform-browser';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { LeftMenuComponent } from './layout/left-menu/left-menu.component';
 import { BreadcrumbComponent } from './layout/breadcrumb/breadcrumb.component';
-import { PanelMenuModule } from 'primeng/panelmenu';
-import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+/**
+ * @classdesc - AppModule корневой модуль приложения
+ */
 @NgModule({
   declarations: [
     AppComponent, LeftMenuComponent, BreadcrumbComponent
@@ -20,8 +24,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BreadcrumbModule,
     BrowserAnimationsModule
   ],
-  providers: [],
-  /*   /src/app/layout   */
-  bootstrap: [AppComponent]
+  providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
+  bootstrap: [AppComponent] /* ==> src/app/layout */
 })
 export class AppModule { }

@@ -55,7 +55,7 @@ export class BreadcrumbComponent implements OnInit {
    */
   private init( url: String = '' ) {
 
-    this._itemsBreadCrumb = [{ label: 'Home', url: '/', icon: 'pi pi-home' }];
+    this._itemsBreadCrumb = [{ label: 'Home', routerLink: '/', icon: 'pi pi-home' }];
 
     this.config.map( item => {
 

@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 
+/**
+ * @classdesc - AppComponent основной компонент корневого модуля
+ */
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',

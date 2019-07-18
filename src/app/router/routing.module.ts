@@ -7,7 +7,7 @@ import { Routes, RouterModule } from '@angular/router';
  */
 const routes: Routes = [
    {
-    path: 'customer',
+    path: 'customers',
     loadChildren: 'src/app/customer/customer.module',
     // data: {'breadCrumbName': 'Главная'},
   //  canActivate:[AppGuard]

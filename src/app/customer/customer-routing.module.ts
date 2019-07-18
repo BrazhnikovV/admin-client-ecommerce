@@ -1,8 +1,11 @@
 'use strict';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ListComponent } from './list/list.component';
+import { ListComponent } from '../shared/components/list/list.component';
 
+/**
+ * @var routes: Routes - массив маршрутов модуля
+ */
 const routes: Routes = [
   {
     path: '',
@@ -12,9 +15,12 @@ const routes: Routes = [
   }
 ];
 
+/**
+ * @classdesc - CustomerRoutingModule модуль для
+ * работы с маршрутами в рамках модуля customer
+ */
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
-  declarations: [ListComponent]
+  exports: [RouterModule]
 })
 export class CustomerRoutingModule { }

@@ -1,3 +1,4 @@
+'use strict';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -9,7 +10,5 @@ export class ListComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
-  }
-
+  ngOnInit() { }
 }
