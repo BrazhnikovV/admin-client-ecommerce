@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { AppComponent } from './layout/app.component';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
+import { HttpClientModule } from '@angular/common/http';
 import { RoutingModule } from './router/routing.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
@@ -21,6 +22,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BrowserModule,
     RoutingModule,
     PanelMenuModule,
+    HttpClientModule,
     BreadcrumbModule,
     BrowserAnimationsModule
   ],
