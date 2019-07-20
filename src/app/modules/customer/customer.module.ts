@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { CustomerRoutingModule } from './customer-routing.module';
 import { SharedModule } from '../../shared/shared.module';
 import { CreateComponent } from './components/create/create.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {ButtonModule} from 'primeng/button';
 
 /**
  * @classdesc - AppModule функциональный модуль для работы с пользователями
@@ -11,8 +13,11 @@ import { CreateComponent } from './components/create/create.component';
 @NgModule({
   declarations: [CreateComponent],
   imports: [
+    FormsModule,
+    ButtonModule,
     CommonModule,
     SharedModule,
+    ReactiveFormsModule,
     CustomerRoutingModule
   ],
 })

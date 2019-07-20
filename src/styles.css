@@ -6,3 +6,12 @@ table td.hide-before:before {
 table td.pi-align-center {
   text-align: center;
 }
+
+.ui-inputgroup input {
+  width: 100%;
+  padding-left: 10px;
+}
+
+.error-message {
+  margin-bottom: 15px;
+}

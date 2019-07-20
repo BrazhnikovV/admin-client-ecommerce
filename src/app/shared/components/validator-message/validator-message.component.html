@@ -1,0 +1,5 @@
+<div  *ngIf="field.touched && field.invalid">
+  <div *ngFor="let m of msgs" class="error-message">
+    <p-message severity="error"  text="{{m}}"></p-message>
+  </div>
+</div>
