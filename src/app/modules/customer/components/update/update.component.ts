@@ -92,9 +92,10 @@ export class UpdateComponent implements OnInit {
    */
   ngOnInit() {
     if (this.id > 0) {
+      const controls = this.customerForm.controls;
       this.rpcService.makeRequest('get', 'customers/' + this.id).subscribe((response) => {
-        Object.keys(response).filter(keyF => keyF !== 'accounts' && keyF !== 'id' ).map( (keyMap, index) => {
-          this.customerForm.get(keyMap).setValue(response[keyMap]);
+        Object.keys(response).filter(key => controls.hasOwnProperty(key) ).map( (key) => {
+          this.customerForm.get(key).setValue(response[key]);
         });
       });
     }
