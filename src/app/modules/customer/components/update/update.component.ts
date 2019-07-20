@@ -1,19 +1,15 @@
-'use strict';
-import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
-import { ValidatorMessageComponent } from '../../../../shared/components/validator-message/validator-message.component';
-import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
-import { RpcService } from '../../services/rpc.service';
-import { ActivatedRoute } from '@angular/router';
+import {Component, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {ValidatorMessageComponent} from '../../../../shared/components/validator-message/validator-message.component';
+import {RpcService} from '../../services/rpc.service';
+import {ActivatedRoute} from '@angular/router';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 
-/**
- * @classdesc - CreateComponent компонент страницы создания клиента
- */
 @Component({
-  selector: 'app-create',
-  templateUrl: './create.component.html',
-  styleUrls: ['./create.component.css']
+  selector: 'app-update',
+  templateUrl: './update.component.html',
+  styleUrls: ['./update.component.css']
 })
-export class CreateComponent implements OnInit {
+export class UpdateComponent implements OnInit {
 
   /**
    * @var viewChildren: QueryList<ValidatorMessageComponent> - список компонентов
@@ -23,10 +19,17 @@ export class CreateComponent implements OnInit {
   private viewChildren: QueryList<ValidatorMessageComponent>;
 
   /**
+   * @var id: number - идентификатор
+   */
+  private id: number;
+
+  /**
    * constructor
    * @param rpcService - сервис
    */
-  constructor( private rpcService: RpcService ) {}
+  constructor( private rpcService: RpcService, private router: ActivatedRoute ) {
+    this.id = router.snapshot.params['id'];
+  }
 
   /**
    *  @var errors: [] - массив ошибок, полученных при аутентификации
@@ -52,17 +55,6 @@ export class CreateComponent implements OnInit {
       Validators.required,
       Validators.minLength( 4 ),
       Validators.maxLength(64 )
-    ]),
-    password: new FormControl('' , [
-      Validators.required,
-      Validators.minLength( 4 ),
-      Validators.maxLength(64 )
-    ]),
-    confirmpass: new FormControl('' , [
-      Validators.required,
-      Validators.minLength( 4 ),
-      Validators.maxLength(64 ),
-      this.forbiddenNameValidator()
     ]),
     role: new FormControl('' , [
       Validators.required,
@@ -98,19 +90,13 @@ export class CreateComponent implements OnInit {
   /**
    * ngOnInit
    */
-  ngOnInit() {}
-
-  /**
-   * forbiddenNameValidator
-   * @return ValidatorFn
-   */
-  private forbiddenNameValidator(): ValidatorFn {
-    return ( control: AbstractControl ): { [key: string]: any } | null => {
-      let pass: String = '';
-      if ( this.customerForm !== undefined ) {
-        pass = this.customerForm.get('password').value;
-      }
-      return ( pass !== control.value ) ? { confirmpass: 'Passwords do not match' } : null;
-    };
+  ngOnInit() {
+    if (this.id > 0) {
+      this.rpcService.makeRequest('get', 'customers/' + this.id).subscribe((response) => {
+        Object.keys(response).filter(keyF => keyF !== 'accounts' && keyF !== 'id' ).map( (keyMap, index) => {
+          this.customerForm.get(keyMap).setValue(response[keyMap]);
+        });
+      });
+    }
   }
 }

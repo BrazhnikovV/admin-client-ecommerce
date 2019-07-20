@@ -6,12 +6,13 @@ import { SharedModule } from '../../shared/shared.module';
 import { CreateComponent } from './components/create/create.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {ButtonModule} from 'primeng/button';
+import { UpdateComponent } from './components/update/update.component';
 
 /**
  * @classdesc - AppModule функциональный модуль для работы с пользователями
  */
 @NgModule({
-  declarations: [CreateComponent],
+  declarations: [CreateComponent, UpdateComponent],
   imports: [
     FormsModule,
     ButtonModule,

@@ -15,12 +15,12 @@ export interface Customer {
   /**
    * @var first_name: string
    */
-  first_name: string;
+  firstName: string;
 
   /**
    * @var last_name: string
    */
-  last_name: string;
+  lastName: string;
 
   /**
    * @var role: string

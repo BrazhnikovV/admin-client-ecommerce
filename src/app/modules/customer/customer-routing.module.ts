@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ListComponent } from '../../shared/components/list/list.component';
 import { CreateComponent } from './components/create/create.component';
+import {UpdateComponent} from './components/update/update.component';
 
 /**
  * @var routes: Routes - массив маршрутов модуля
@@ -17,6 +18,12 @@ const routes: Routes = [
   {
     path: 'create',
     component: CreateComponent,
+    // data: {'breadCrumbName': 'Главная'},
+    //  canActivate:[AppGuard]
+  },
+  {
+    path: 'edit/:id',
+    component: UpdateComponent,
     // data: {'breadCrumbName': 'Главная'},
     //  canActivate:[AppGuard]
   }

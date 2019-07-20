@@ -6,6 +6,7 @@ import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { ValidatorMessageComponent } from './components/validator-message/validator-message.component';
 import { MessageModule } from 'primeng/message';
+import {RouterModule} from '@angular/router';
 
 /**
  * @classdesc - SharedModule обобщающий модуль для работы с общими компонентами
@@ -15,7 +16,8 @@ import { MessageModule } from 'primeng/message';
     TableModule,
     ButtonModule,
     CommonModule,
-    MessageModule
+    MessageModule,
+    RouterModule
   ],
   declarations: [ListComponent, ValidatorMessageComponent],
   exports: [ListComponent, ValidatorMessageComponent]
