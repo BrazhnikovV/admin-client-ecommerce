@@ -1,6 +1,7 @@
 'use strict';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { Error404Component } from '../layout/error404/error404.component';
 
 /**
  * @var routes: Routes - маршруты приложения
@@ -47,8 +48,8 @@ const routes: Routes = [
     loadChildren: 'src/app/modules/product/product.module',
     data: {'breadCrumbName': 'Продукты'},
     //  canActivate:[AppGuard]
-  }
-  // { path: '**', component: Page404Component },
+  },
+  { path: '**', component: Error404Component },
 ];
 
 /**

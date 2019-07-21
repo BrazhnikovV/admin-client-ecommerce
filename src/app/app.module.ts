@@ -10,13 +10,14 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { LeftMenuComponent } from './layout/left-menu/left-menu.component';
 import { BreadcrumbComponent } from './layout/breadcrumb/breadcrumb.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { Error404Component } from './layout/error404/error404.component';
 
 /**
  * @classdesc - AppModule корневой модуль приложения
  */
 @NgModule({
   declarations: [
-    AppComponent, LeftMenuComponent, BreadcrumbComponent
+    AppComponent, LeftMenuComponent, BreadcrumbComponent, Error404Component
   ],
   imports: [
     BrowserModule,
