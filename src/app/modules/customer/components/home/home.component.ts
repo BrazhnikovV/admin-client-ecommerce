@@ -1,7 +1,7 @@
 'use strict';
 import { Component, OnInit } from '@angular/core';
 import { RpcService } from '../../../../shared/services/rpc.service';
-import {Customer} from '../../models/customer';
+import { Customer } from '../../models/customer';
 
 /**
  * @classdesc - HomeComponent корневой компонент функционального модуля

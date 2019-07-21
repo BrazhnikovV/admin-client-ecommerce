@@ -1,9 +1,10 @@
-import {Component, OnInit, QueryList, ViewChildren} from '@angular/core';
-import {ValidatorMessageComponent} from '../../../../shared/components/validator-message/validator-message.component';
-import {RpcService} from '../../../../shared/services/rpc.service';
-import {ActivatedRoute} from '@angular/router';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {Customer} from '../../models/customer';
+'use strict';
+import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { ValidatorMessageComponent } from '../../../../shared/components/validator-message/validator-message.component';
+import { RpcService } from '../../../../shared/services/rpc.service';
+import { ActivatedRoute } from '@angular/router';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Customer } from '../../models/customer';
 
 @Component({
   selector: 'app-update',
