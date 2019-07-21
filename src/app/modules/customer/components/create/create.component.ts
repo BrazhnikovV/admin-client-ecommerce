@@ -3,7 +3,6 @@ import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { ValidatorMessageComponent } from '../../../../shared/components/validator-message/validator-message.component';
 import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { RpcService } from '../../services/rpc.service';
-import { ActivatedRoute } from '@angular/router';
 
 /**
  * @classdesc - CreateComponent компонент страницы создания клиента

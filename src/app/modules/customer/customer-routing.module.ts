@@ -1,9 +1,9 @@
 'use strict';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ListComponent } from '../../shared/components/list/list.component';
 import { CreateComponent } from './components/create/create.component';
-import {UpdateComponent} from './components/update/update.component';
+import { UpdateComponent } from './components/update/update.component';
+import { HomeComponent } from './components/home/home.component';
 
 /**
  * @var routes: Routes - массив маршрутов модуля
@@ -11,7 +11,7 @@ import {UpdateComponent} from './components/update/update.component';
 const routes: Routes = [
   {
     path: '',
-    component: ListComponent,
+    component: HomeComponent,
     // data: {'breadCrumbName': 'Главная'},
     //  canActivate:[AppGuard]
   },

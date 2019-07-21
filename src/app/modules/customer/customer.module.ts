@@ -5,14 +5,15 @@ import { CustomerRoutingModule } from './customer-routing.module';
 import { SharedModule } from '../../shared/shared.module';
 import { CreateComponent } from './components/create/create.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {ButtonModule} from 'primeng/button';
+import { ButtonModule} from 'primeng/button';
 import { UpdateComponent } from './components/update/update.component';
+import { HomeComponent } from './components/home/home.component';
 
 /**
  * @classdesc - AppModule функциональный модуль для работы с пользователями
  */
 @NgModule({
-  declarations: [CreateComponent, UpdateComponent],
+  declarations: [CreateComponent, UpdateComponent, HomeComponent],
   imports: [
     FormsModule,
     ButtonModule,

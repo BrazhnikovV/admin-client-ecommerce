@@ -1,6 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+'use strict';
+import { Component, Input, OnInit } from '@angular/core';
 import { RpcService } from '../../../modules/customer/services/rpc.service';
 
+/**
+ * @classdesc - ListComponent компонент отрисовки записей сущности в виде даблицы
+ */
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
@@ -10,30 +14,25 @@ import { RpcService } from '../../../modules/customer/services/rpc.service';
 export class ListComponent implements OnInit {
 
   /**
+   * @var cols: [] - массив с названиями полей и колонок
+   */
+  @Input()
+  public cols: [];
+
+  /**
+   * @var entityList: [] - массив записей сущности
+   */
+  @Input()
+  private entityList: [];
+
+  /**
    * constructor - конструктор
+   * @param rpcService - сервис для обращения к серверу апи
    */
   constructor( private rpcService: RpcService ) { }
 
   /**
-   * @var cols: []
+   * ngOnInit
    */
-  private cols = [
-    { field: 'id',        header: 'id',        class: 'th-btn' },
-    { field: 'username',  header: 'username',  class: '' },
-    { field: 'email',     header: 'email',     class: '' },
-    { field: 'firstName', header: 'firstname', class: '' },
-    { field: 'lastName',  header: 'lastname',  class: '' },
-    { field: 'role',      header: 'role',      class: '' }
-  ];
-
-  /**
-   * @var users: []
-   */
-  private users: [];
-
-  ngOnInit() {
-    this.rpcService.makeRequest( 'get', 'customers/list' ).subscribe(( response ) => {
-      this.users = response;
-    });
-  }
+  ngOnInit() {}
 }

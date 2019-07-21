@@ -1,8 +1,8 @@
-<p-table [value]="users" [resizableColumns]="true">
+<p-table [value]="entityList" [resizableColumns]="true">
   <ng-template pTemplate="header">
     <tr>
       <th *ngFor="let col of cols">
-        {{col.header}}
+        {{col['header']}}
       </th>
       <th></th>
     </tr>
@@ -10,9 +10,11 @@
   <ng-template pTemplate="body" let-user>
     <tr>
       <td *ngFor="let col of cols">
-        {{user[col.field]}}
+        {{user[col['field']]}}
       </td>
-      <td class="pi-align-center hide-before"><p-button icon="pi pi-pencil" routerLink="edit/{{user.id}}"></p-button></td>
+      <td class="pi-align-center hide-before">
+        <p-button icon="pi pi-pencil" routerLink="edit/{{user.id}}"></p-button>
+      </td>
     </tr>
   </ng-template>
 </p-table>
