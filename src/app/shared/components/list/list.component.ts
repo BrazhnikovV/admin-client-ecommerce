@@ -1,6 +1,5 @@
 'use strict';
 import { Component, Input, OnInit } from '@angular/core';
-import { RpcService } from '../../../modules/customer/services/rpc.service';
 
 /**
  * @classdesc - ListComponent компонент отрисовки записей сущности в виде даблицы
@@ -9,7 +8,7 @@ import { RpcService } from '../../../modules/customer/services/rpc.service';
   selector: 'app-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.css'],
-  providers: [RpcService]
+  providers: []
 })
 export class ListComponent implements OnInit {
 
@@ -27,9 +26,8 @@ export class ListComponent implements OnInit {
 
   /**
    * constructor - конструктор
-   * @param rpcService - сервис для обращения к серверу апи
    */
-  constructor( private rpcService: RpcService ) { }
+  constructor() {}
 
   /**
    * ngOnInit
