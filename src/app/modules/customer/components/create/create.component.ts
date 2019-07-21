@@ -2,7 +2,8 @@
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { ValidatorMessageComponent } from '../../../../shared/components/validator-message/validator-message.component';
 import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
-import { RpcService } from '../../services/rpc.service';
+import { RpcService } from '../../../../shared/services/rpc.service';
+import { Customer } from '../../models/customer';
 
 /**
  * @classdesc - CreateComponent компонент страницы создания клиента
@@ -25,7 +26,7 @@ export class CreateComponent implements OnInit {
    * constructor
    * @param rpcService - сервис
    */
-  constructor( private rpcService: RpcService ) {}
+  constructor( private rpcService: RpcService<Customer> ) {}
 
   /**
    *  @var errors: [] - массив ошибок, полученных при аутентификации

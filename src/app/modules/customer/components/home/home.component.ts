@@ -1,6 +1,7 @@
 'use strict';
 import { Component, OnInit } from '@angular/core';
-import { RpcService } from '../../services/rpc.service';
+import { RpcService } from '../../../../shared/services/rpc.service';
+import {Customer} from '../../models/customer';
 
 /**
  * @classdesc - HomeComponent корневой компонент функционального модуля
@@ -35,7 +36,7 @@ export class HomeComponent implements OnInit {
    * constructor - конструктор
    * @param rpcService - сервис для обращения к серверу апи
    */
-  constructor( private rpcService: RpcService ) {}
+  constructor( private rpcService: RpcService<Customer> ) {}
 
   /**
    * ngOnInit

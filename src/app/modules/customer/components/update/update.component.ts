@@ -1,8 +1,9 @@
 import {Component, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {ValidatorMessageComponent} from '../../../../shared/components/validator-message/validator-message.component';
-import {RpcService} from '../../services/rpc.service';
+import {RpcService} from '../../../../shared/services/rpc.service';
 import {ActivatedRoute} from '@angular/router';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {Customer} from '../../models/customer';
 
 @Component({
   selector: 'app-update',
@@ -27,7 +28,7 @@ export class UpdateComponent implements OnInit {
    * constructor
    * @param rpcService - сервис
    */
-  constructor( private rpcService: RpcService, private router: ActivatedRoute ) {
+  constructor( private rpcService: RpcService<Customer>, private router: ActivatedRoute ) {
     this.id = router.snapshot.params['id'];
   }
 
@@ -91,11 +92,11 @@ export class UpdateComponent implements OnInit {
    * ngOnInit
    */
   ngOnInit() {
-    if (this.id > 0) {
+    if ( this.id > 0 ) {
       const controls = this.customerForm.controls;
-      this.rpcService.makeRequest('get', 'customers/' + this.id).subscribe((response) => {
-        Object.keys(response).filter(key => controls.hasOwnProperty(key) ).map( (key) => {
-          this.customerForm.get(key).setValue(response[key]);
+      this.rpcService.makeRequest('get', 'customers/' + this.id ).subscribe(( response ) => {
+        Object.keys( response ).filter(key => controls.hasOwnProperty( key ) ).map( ( key ) => {
+          this.customerForm.get( key ).setValue( response[key] );
         });
       });
     }

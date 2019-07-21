@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { Customer } from '../models/customer';
 import { catchError, tap } from 'rxjs/operators';
 
 /**
  * @classdesc - сервис для получения данных ...
  */
 @Injectable({ providedIn: 'root' })
-export class RpcService {
+export class RpcService<T extends {}> {
 
   /**
    *  @var string apiUrl - url адрес rest api(rpc)
@@ -33,8 +32,8 @@ export class RpcService {
    * @param data   - набор данных, которые необходимо передать серверу
    * @return Observable<any> | throwError( error )
    */
-  public makeRequest( method: string, path: string, data?: any ): Observable<any> {
-    return this.http[method]<Customer[]>( this.apiUrl + path, this.getAuthHeaders() ).pipe(
+  public makeRequest( method: string, path: string, data?: T ): Observable<any> {
+    return this.http[method]<T[]>( this.apiUrl + path, this.getAuthHeaders() ).pipe(
       tap(response => {}),
       catchError(error => {
         return throwError( error );
