@@ -17,6 +17,12 @@ const routes: Routes = [
     loadChildren: 'src/app/modules/address/address.module',
     // data: {'breadCrumbName': 'Главная'},
     //  canActivate:[AppGuard]
+  },
+  {
+    path: 'credit-cards',
+    loadChildren: 'src/app/modules/credit-card/credit-card.module'
+    // data: {'breadCrumbName': 'Главная'},
+    //  canActivate:[AppGuard]
   }
   // { path: '**', component: Page404Component },
 ];
