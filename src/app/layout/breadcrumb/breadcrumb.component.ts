@@ -1,6 +1,6 @@
 'use strict';
 import { Component, OnInit } from '@angular/core';
-import { Router, Routes, NavigationEnd } from '@angular/router';
+import { Router, ChildActivationEnd } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { filter } from 'rxjs/operators';
 
@@ -17,20 +17,17 @@ export class BreadcrumbComponent implements OnInit {
   /**
    * @var MenuItem[] itemsBreadCrumb
    */
-  private _itemsBreadCrumb: MenuItem[] = [];
+  private _itemsBreadCrumb: MenuItem[] = [{ label: 'Home', routerLink: '/', icon: 'pi pi-home' }];
 
   /**
-   * @var Routes config
+   * constructor - конструктор
+   * @param _router - текущий маршрут
    */
-  private config: Routes;
+  constructor( private _router: Router ) {}
 
   /**
-   * constructor
+   * ngOnInit
    */
-  constructor( private _router: Router ) {
-    this.config = _router.config;
-  }
-
   ngOnInit() {
     this.listenRouting();
     this.init();
@@ -43,31 +40,30 @@ export class BreadcrumbComponent implements OnInit {
    */
   private listenRouting() {
     this._router.events
-      .pipe( filter(event => event instanceof NavigationEnd ) )
-      .subscribe(( router: any ) => {
-        this.init( router.url );
+      .pipe( filter(event => event instanceof ChildActivationEnd ) )
+      .subscribe(( event: any ) => {
+        this.init( event );
     });
   }
 
   /**
    * init - инициализирует дефалтный набор хлебных крошек
+   * @param event - событие изменения маршрута
    * @return void
    */
-  private init( url: String = '' ) {
+  private init( event: any = '' ) {
 
-    this._itemsBreadCrumb = [{ label: 'Home', routerLink: '/', icon: 'pi pi-home' }];
-
-    this.config.map( item => {
-
-      let breadCrumbName;
-      if ( item.hasOwnProperty( 'data' ) ) {
-        breadCrumbName = item.data.breadCrumbName;
+    if ( event['snapshot'] !== undefined ) {
+      if ( Object.keys(event['snapshot'].data).length > 0 ) {
+        this._itemsBreadCrumb = [{ label: 'Home', routerLink: '/', icon: 'pi pi-home' }];
+        const breadCrumbName = event['snapshot'].data.breadCrumbName;
+        this._itemsBreadCrumb.push({ label: breadCrumbName, icon: '' });
+        const breadCrumbChildName = event['snapshot'].children[0].data.breadCrumbName;
+        if ( breadCrumbName !== breadCrumbChildName) {
+          this._itemsBreadCrumb.push({ label: breadCrumbChildName, routerLink: '', icon: '' });
+        }
       }
-
-      if ( url === '/' + item.path ) {
-        this._itemsBreadCrumb.push({ label: breadCrumbName/*, routerLink: item.path*/ });
-      }
-    });
+    }
   }
 
   /**

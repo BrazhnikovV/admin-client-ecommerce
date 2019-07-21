@@ -21,7 +21,7 @@ const routes: Routes = [
   {
     path: 'credit-cards',
     loadChildren: 'src/app/modules/credit-card/credit-card.module',
-    data: {'breadCrumbName': 'Кредитные карта'},
+    data: {'breadCrumbName': 'Кредитные карты'},
     //  canActivate:[AppGuard]
   },
   {

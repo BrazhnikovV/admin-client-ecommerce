@@ -9,7 +9,7 @@ const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
-    // data: {'breadCrumbName': 'Главная'},
+    data: {'breadCrumbName': 'Список счет фактур'},
     //  canActivate:[AppGuard]
   }
 ];
