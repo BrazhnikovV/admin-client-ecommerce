@@ -1,3 +1,4 @@
+'use strict';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Messages } from 'primeng/primeng';
@@ -37,7 +38,7 @@ export class ValidatorMessageComponent implements OnInit {
 
   /**
    * ngOnChanges - перехватываем событие изменения компонента
-   * @return void
+   * @return void | boolean
    */
   public ngOnChanges() {
     const field = this.field;
