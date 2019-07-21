@@ -23,6 +23,12 @@ const routes: Routes = [
     loadChildren: 'src/app/modules/credit-card/credit-card.module'
     // data: {'breadCrumbName': 'Главная'},
     //  canActivate:[AppGuard]
+  },
+  {
+    path: 'orders',
+    loadChildren: 'src/app/modules/order/order.module'
+    // data: {'breadCrumbName': 'Главная'},
+    //  canActivate:[AppGuard]
   }
   // { path: '**', component: Page404Component },
 ];
