@@ -29,6 +29,12 @@ const routes: Routes = [
     loadChildren: 'src/app/modules/order/order.module'
     // data: {'breadCrumbName': 'Главная'},
     //  canActivate:[AppGuard]
+  },
+  {
+    path: 'invoices',
+    loadChildren: 'src/app/modules/invoice/invoice.module'
+    // data: {'breadCrumbName': 'Главная'},
+    //  canActivate:[AppGuard]
   }
   // { path: '**', component: Page404Component },
 ];
