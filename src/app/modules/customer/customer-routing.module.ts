@@ -18,7 +18,7 @@ const routes: Routes = [
   {
     path: 'create',
     component: CreateComponent,
-    // data: {'breadCrumbName': 'Главная'},
+    data: {'breadCrumbName': 'Создать пользователя'},
     //  canActivate:[AppGuard]
   },
   {
