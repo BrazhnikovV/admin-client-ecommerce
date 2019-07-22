@@ -1,4 +1,4 @@
-<p-table [value]="entityList" [resizableColumns]="true">
+<p-table [value]="entityList" [resizableColumns]="true" [paginator]="true" [rows]="10">
   <ng-template pTemplate="header">
     <tr>
       <th *ngFor="let col of cols">

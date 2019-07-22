@@ -17,6 +17,11 @@ export class ProgressComponent implements OnInit {
   private value = 0;
 
   /**
+   * @var hide: boolean - скрыт ли прогресс
+   */
+  private hide = false;
+
+  /**
    * constructor - конструктор
    */
   constructor() { }
@@ -25,4 +30,14 @@ export class ProgressComponent implements OnInit {
    * ngOnInit
    */
   ngOnInit() {}
+
+  /**
+   * ngOnChanges
+   */
+  // tslint:disable-next-line:use-life-cycle-interface
+  ngOnChanges() {
+    if ( this.value === 100 ) {
+      setTimeout(() => this.hide = true, 1000 );
+    }
+  }
 }
