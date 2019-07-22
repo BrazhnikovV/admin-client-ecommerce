@@ -13,6 +13,11 @@ import { Creditcard } from '../../models/creditcard';
 export class HomeComponent implements OnInit {
 
   /**
+   * @var progress: number -
+   */
+  private progress: number;
+
+  /**
    * @var custmersList: [] - массив клиентов
    */
   private creditCardsList: [];
@@ -36,9 +41,20 @@ export class HomeComponent implements OnInit {
   /**
    * ngOnInit
    */
-  ngOnInit() {
+  ngOnInit() {}
+
+  // tslint:disable-next-line:use-life-cycle-interface
+  ngAfterViewInit() {
     this.rpcService.makeRequest( 'get', 'cards/list' ).subscribe(( response ) => {
-      this.creditCardsList = response;
+      if ( response !== undefined ) {
+        if ( response.hasOwnProperty('message') ) {
+          this.progress = response.message;
+        } else {
+          if ( response.type !== 0 && !response.hasOwnProperty('ok') ) {
+            this.creditCardsList = response;
+          }
+        }
+      }
     });
   }
 }

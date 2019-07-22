@@ -19,6 +19,12 @@ export class HomeComponent implements OnInit {
    */
   private custmersList: [];
 
+
+  /**
+   * @var progress: String - массив клиентов
+   */
+  private progress: String;
+
   /**
    * @var cols: [] - массив с названиями полей и колонок
    * таблицы клиентов(пользователей)
@@ -43,8 +49,15 @@ export class HomeComponent implements OnInit {
    */
   ngOnInit() {
     this.rpcService.makeRequest( 'get', 'customers/list' ).subscribe(( response ) => {
-      console.log(response)
-      this.custmersList = response;
+      if ( response !== undefined ) {
+        if ( response.hasOwnProperty('status') ) {
+          this.progress = response.message;
+        } else {
+          if ( response.type !== 0 && !response.hasOwnProperty('ok') ) {
+            this.custmersList = response;
+          }
+        }
+      }
     });
   }
 }

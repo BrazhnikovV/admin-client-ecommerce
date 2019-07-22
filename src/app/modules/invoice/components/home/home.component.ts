@@ -13,6 +13,11 @@ import { RpcService } from '../../../../shared/services/rpc.service';
 export class HomeComponent implements OnInit {
 
   /**
+   * @var progress: number -
+   */
+  private progress: number;
+
+  /**
    * @var invoicesList: [] - массив счет фактур
    */
   private invoicesList: [];
@@ -36,9 +41,20 @@ export class HomeComponent implements OnInit {
   /**
    * ngOnInit
    */
-  ngOnInit() {
+  ngOnInit() {}
+
+  // tslint:disable-next-line:use-life-cycle-interface
+  ngAfterViewInit() {
     this.rpcService.makeRequest( 'get', 'invoices/list' ).subscribe(( response ) => {
-      this.invoicesList = response;
+      if ( response !== undefined ) {
+        if ( response.hasOwnProperty('message') ) {
+          this.progress = response.message;
+        } else {
+          if ( response.type !== 0 && !response.hasOwnProperty('ok') ) {
+            this.invoicesList = response;
+          }
+        }
+      }
     });
   }
 }

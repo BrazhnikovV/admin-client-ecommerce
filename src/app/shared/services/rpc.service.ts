@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpEventType, HttpHeaders} from '@angular/common/http';
+import { HttpClient, HttpEventType, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import {catchError, map, tap} from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 
 /**
  * @classdesc - сервис для получения данных ...
@@ -38,14 +38,11 @@ export class RpcService<T extends {}> {
           switch (event['type']) {
             case HttpEventType.DownloadProgress:
               const progress = Math.round(100 * event['loaded'] / event['total']);
-              console.log(event);
-              console.log(progress);
-              // return { status: 'progress', message: progress };
-              break;
+              return { status: 'progress', message: progress };
             case HttpEventType.Response:
               return event['body'];
             default:
-              // return `Unhandled event: ${event['type']}`;
+              return event;
           }
       }),
       catchError(error => {

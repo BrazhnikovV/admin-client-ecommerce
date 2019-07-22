@@ -14,6 +14,11 @@ import {RpcService} from '../../../../shared/services/rpc.service';
 export class HomeComponent implements OnInit {
 
   /**
+   * @var progress: number -
+   */
+  private progress: number;
+
+  /**
    * @var shipmentsList: [] - массив доставок
    */
   private shipmentsList: [];
@@ -37,9 +42,20 @@ export class HomeComponent implements OnInit {
   /**
    * ngOnInit
    */
-  ngOnInit() {
+  ngOnInit() {}
+
+  // tslint:disable-next-line:use-life-cycle-interface
+  ngAfterViewInit() {
     this.rpcService.makeRequest( 'get', 'invoices/list' ).subscribe(( response ) => {
-      this.shipmentsList = response;
+      if ( response !== undefined ) {
+        if ( response.hasOwnProperty('message') ) {
+          this.progress = response.message;
+        } else {
+          if ( response.type !== 0 && !response.hasOwnProperty('ok') ) {
+            this.shipmentsList = response;
+          }
+        }
+      }
     });
   }
 }

@@ -14,6 +14,11 @@ import { RpcService } from '../../../../shared/services/rpc.service';
 export class HomeComponent implements OnInit {
 
   /**
+   * @var progress: number -
+   */
+  private progress: number;
+
+  /**
    * @var custmersList: [] - массив клиентов
    */
   private addressesList: [];
@@ -39,8 +44,21 @@ export class HomeComponent implements OnInit {
   constructor( private rpcService: RpcService<Address> ) {}
 
   ngOnInit() {
+
+  }
+
+  // tslint:disable-next-line:use-life-cycle-interface
+  ngAfterViewInit() {
     this.rpcService.makeRequest( 'get', 'address/list' ).subscribe(( response ) => {
-      this.addressesList = response;
+      if ( response !== undefined ) {
+        if ( response.hasOwnProperty('message') ) {
+          this.progress = response.message;
+        } else {
+          if ( response.type !== 0 && !response.hasOwnProperty('ok') ) {
+            this.addressesList = response;
+          }
+        }
+      }
     });
   }
 }
