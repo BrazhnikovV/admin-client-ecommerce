@@ -43,6 +43,7 @@ export class HomeComponent implements OnInit {
    */
   ngOnInit() {
     this.rpcService.makeRequest( 'get', 'customers/list' ).subscribe(( response ) => {
+      console.log(response)
       this.custmersList = response;
     });
   }

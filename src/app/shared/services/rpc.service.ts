@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {HttpClient, HttpEventType, HttpHeaders} from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import {catchError, map, tap} from 'rxjs/operators';
 
 /**
  * @classdesc - сервис для получения данных ...
@@ -33,8 +33,21 @@ export class RpcService<T extends {}> {
    * @return Observable<any> | throwError( error )
    */
   public makeRequest( method: string, path: string, data?: T ): Observable<any> {
-    return this.http[method]<T[]>( this.apiUrl + path, this.getAuthHeaders() ).pipe(
-      tap(response => {}),
+    return this.http[method]<T[]>( this.apiUrl + path, this.getAuthHeaders(), data).pipe(
+      map( event => {
+          switch (event['type']) {
+            case HttpEventType.DownloadProgress:
+              const progress = Math.round(100 * event['loaded'] / event['total']);
+              console.log(event);
+              console.log(progress);
+              // return { status: 'progress', message: progress };
+              break;
+            case HttpEventType.Response:
+              return event['body'];
+            default:
+              // return `Unhandled event: ${event['type']}`;
+          }
+      }),
       catchError(error => {
         return throwError( error );
       })
@@ -49,9 +62,9 @@ export class RpcService<T extends {}> {
 
     const hash = btoa( sessionStorage.getItem('token') + ':' );
     const httpOptions = {
-      headers: new HttpHeaders({
-        'Authorization': 'Bearer ' + this.token
-      })
+      headers: new HttpHeaders({'Authorization': 'Bearer ' + this.token}),
+      reportProgress: true,
+      observe: 'events'
     };
 
     return httpOptions;
