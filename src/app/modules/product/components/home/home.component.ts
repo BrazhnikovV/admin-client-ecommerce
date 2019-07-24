@@ -31,7 +31,7 @@ export class HomeComponent implements OnInit {
     { field: 'name',           header: 'name',           class: '' },
     { field: 'price',          header: 'price',          class: '' },
     { field: 'description',    header: 'description',    class: '' },
-    { field: 'product_number', header: 'product_number', class: '' }
+    { field: 'productNumber',  header: 'productNumber',  class: '' }
   ];
 
   /**

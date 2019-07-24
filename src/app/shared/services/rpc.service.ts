@@ -27,23 +27,31 @@ export class RpcService<T extends {}> {
 
   /**
    * getCategories - получить список категорий
-   * @param method - название метода HTTP протокола
    * @param path   - путь определяющий сущность и операцию выполняемою на дней
    * @param data   - набор данных, которые необходимо передать серверу
    * @return Observable<any> | throwError( error )
    */
-  public makeRequest( method: string, path: string, data?: T ): Observable<any> {
-    return this.http[method]<T[]>( this.apiUrl + path, this.getAuthHeaders(), data).pipe(
+  public makePost( path: string, data?: T ): Observable<any> {
+    return this.http.post<T[]>( this.apiUrl + path, data, this.getAuthHeaders() ).pipe(
       map( event => {
-          switch (event['type']) {
-            case HttpEventType.DownloadProgress:
-              const progress = Math.round(100 * event['loaded'] / event['total']);
-              return { status: 'progress', message: progress };
-            case HttpEventType.Response:
-              return event['body'];
-            default:
-              return event;
-          }
+        return this.caseHttpEventType( event );
+      }),
+      catchError(error => {
+        return throwError( error );
+      })
+    );
+  }
+
+  /**
+   * makeRequest -
+   * @param method - название метода HTTP протокола
+   * @param path   - путь определяющий сущность и операцию выполняемою на дней
+   * @return Observable<any> | throwError( error )
+   */
+  public makeRequest( method: string, path: string ): Observable<any> {
+    return this.http[method]<T[]>( this.apiUrl + path, this.getAuthHeaders() ).pipe(
+      map( event => {
+          return this.caseHttpEventType( event );
       }),
       catchError(error => {
         return throwError( error );
@@ -61,10 +69,26 @@ export class RpcService<T extends {}> {
     const httpOptions = {
       headers: new HttpHeaders({'Authorization': 'Bearer ' + this.token}),
       reportProgress: true,
-      observe: 'events'
+      observe: 'events',
     };
 
     return httpOptions;
+  }
+
+  /**
+   * caseHttpEventType -
+   * @param event -
+   */
+  private caseHttpEventType( event ): {} {
+    switch (event['type']) {
+      case HttpEventType.DownloadProgress:
+        const progress = Math.round(100 * event['loaded'] / event['total']);
+        return { status: 'progress', message: progress };
+      case HttpEventType.Response:
+        return event['body'];
+      default:
+        return event;
+    }
   }
 }
 

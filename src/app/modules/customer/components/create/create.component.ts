@@ -82,7 +82,7 @@ export class CreateComponent implements OnInit {
    */
   onSubmit() {
     console.log('### CategoryCreateComponent => onSubmit()');
-    this.rpcService.makeRequest( 'post',  '', this.customerForm.value ).subscribe(
+    this.rpcService.makePost( 'customers/create', this.customerForm.value ).subscribe(
       response => { console.log(response); }, error => { this.errors = error; }
     );
   }

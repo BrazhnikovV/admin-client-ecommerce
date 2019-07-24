@@ -9,14 +9,14 @@ export interface Product {
   id: number;
 
   /**
-   * @var description: string
-   */
-  description: string;
-
-  /**
    * @var name: string
    */
   name: string;
+
+  /**
+   * @var description: string
+   */
+  description: string;
 
   /**
    * @var price: number
@@ -26,5 +26,5 @@ export interface Product {
   /**
    * @var product_number: string
    */
-  product_number: string;
+  productNumber: string;
 }

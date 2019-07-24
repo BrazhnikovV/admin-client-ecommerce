@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
+import { CreateComponent } from './components/create/create.component';
 
 /**
  * @var routes: Routes - массив маршрутов модуля
@@ -10,7 +11,11 @@ const routes: Routes = [
     path: '',
     component: HomeComponent,
     data: {'breadCrumbName': 'Список продуктов'},
-    //  canActivate:[AppGuard]
+  },
+  {
+    path: 'create',
+    component: CreateComponent,
+    data: {'breadCrumbName': 'Создать продукт'},
   }
 ];
 
