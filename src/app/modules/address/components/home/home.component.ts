@@ -44,11 +44,6 @@ export class HomeComponent implements OnInit {
   constructor( private rpcService: RpcService<Address> ) {}
 
   ngOnInit() {
-
-  }
-
-  // tslint:disable-next-line:use-life-cycle-interface
-  ngAfterViewInit() {
     this.rpcService.makeRequest( 'get', 'address/list' ).subscribe(( response ) => {
       if ( response !== undefined ) {
         if ( response.hasOwnProperty('message') ) {
