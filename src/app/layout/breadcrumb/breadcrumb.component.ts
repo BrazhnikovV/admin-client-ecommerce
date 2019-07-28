@@ -56,8 +56,11 @@ export class BreadcrumbComponent implements OnInit {
     if ( event['snapshot'] !== undefined ) {
       if ( Object.keys(event['snapshot'].data).length > 0 ) {
         this._itemsBreadCrumb = [{ label: 'Home', routerLink: '/', icon: 'pi pi-home' }];
+
         const breadCrumbName = event['snapshot'].data.breadCrumbName;
-        this._itemsBreadCrumb.push({ label: breadCrumbName, icon: '' });
+        const routePath      = event['snapshot'].routeConfig.path;
+        this._itemsBreadCrumb.push({ label: breadCrumbName, routerLink: routePath, icon: '' });
+
         const breadCrumbChildName = event['snapshot'].children[0].data.breadCrumbName;
         if ( breadCrumbName !== breadCrumbChildName) {
           this._itemsBreadCrumb.push({ label: breadCrumbChildName, routerLink: '', icon: '' });

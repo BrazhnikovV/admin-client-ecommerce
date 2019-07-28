@@ -18,14 +18,12 @@ const routes: Routes = [
   {
     path: 'create',
     component: CreateComponent,
-    data: {'breadCrumbName': 'Создать пользователя'},
-    //  canActivate:[AppGuard]
+    data: {'breadCrumbName': 'Создать пользователя'}
   },
   {
     path: 'edit/:id',
     component: UpdateComponent,
-    // data: {'breadCrumbName': 'Главная'},
-    //  canActivate:[AppGuard]
+    data: {'breadCrumbName': 'Редактировать пользователя'}
   }
 ];
 
