@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {Product} from '../../models/product';
-import {RpcService} from '../../../../shared/services/rpc.service';
+import { Product } from '../../models/product';
+import { RpcService } from '../../../../shared/services/rpc.service';
 
 /**
  * @classdesc - HomeComponent корневой компонент функционального модуля
@@ -50,6 +50,7 @@ export class HomeComponent implements OnInit {
           this.progress = response.message;
         } else {
           if ( response.type !== 0 && !response.hasOwnProperty('ok') ) {
+            console.log(response);
             this.productsList = response;
           }
         }

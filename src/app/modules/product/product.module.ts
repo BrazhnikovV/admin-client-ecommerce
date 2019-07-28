@@ -6,6 +6,7 @@ import { SharedModule } from '../../shared/shared.module';
 import { CreateComponent } from './components/create/create.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
+import { FileUploadModule } from 'primeng/fileupload';
 
 /**
  * @classdesc - ProductModule функциональный модуль
@@ -18,6 +19,7 @@ import { ButtonModule } from 'primeng/button';
     CommonModule,
     SharedModule,
     ButtonModule,
+    FileUploadModule,
     ReactiveFormsModule,
     ProductRoutingModule
   ]

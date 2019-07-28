@@ -1,45 +1,52 @@
 <div class="p-grid">
-  <form [formGroup]="customerForm" (ngSubmit)="onSubmit()" class="form-horizontal p-col-12">
+  <form [formGroup]="productForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data" class="form-horizontal p-col-12">
     <div class="p-grid">
       <div class="p-col-12 p-md-6">
         <div class="p-grid">
           <div class="p-col-12 p-md-12">
-            <app-validator-message [field]="customerForm.get('name')"></app-validator-message>
+            <app-validator-message [field]="productForm.get('name')"></app-validator-message>
             <div class="ui-inputgroup">
               <span class="ui-inputgroup-addon"><i class="pi pi-pw pi-user"></i></span>
               <input (keyup)="inputChange()" type="text" pInputText placeholder="name" formControlName="name">
             </div>
           </div>
           <div class="p-col-12 p-md-12">
-            <app-validator-message [field]="customerForm.get('price')"></app-validator-message>
+            <app-validator-message [field]="productForm.get('price')"></app-validator-message>
             <div class="ui-inputgroup">
               <span class="ui-inputgroup-addon"><i class="pi pi-pw pi-dollar"></i></span>
               <input (keyup)="inputChange()" type="text" pInputText placeholder="price" formControlName="price">
             </div>
-          </div>
-          <div class="p-col-12">
-            <button *ngIf="customerForm.invalid" pButton type="submit" disabled label="Создать продукт"></button>
-            <button *ngIf="customerForm.valid" pButton type="submit" label="Создать продукт"></button>
           </div>
         </div>
       </div>
       <div class="p-col-12 p-md-6">
         <div class="p-grid">
           <div class="p-col-12 p-md-12">
-            <app-validator-message [field]="customerForm.get('description')"></app-validator-message>
+            <app-validator-message [field]="productForm.get('description')"></app-validator-message>
             <div class="ui-inputgroup">
               <span class="ui-inputgroup-addon"><i class="pi pi-pw pi-list"></i></span>
               <input (keyup)="inputChange()" type="text" pInputText placeholder="description" formControlName="description">
             </div>
           </div>
           <div class="p-col-12 p-md-12">
-            <app-validator-message [field]="customerForm.get('productNumber')"></app-validator-message>
+            <app-validator-message [field]="productForm.get('productNumber')"></app-validator-message>
             <div class="ui-inputgroup">
               <span class="ui-inputgroup-addon"><i class="pi pi-pw pi-inbox"></i></span>
               <input (keyup)="inputChange()" type="text" pInputText placeholder="product number" formControlName="productNumber">
             </div>
           </div>
         </div>
+      </div>
+    </div>
+    <div class="p-grid">
+      <div class="p-col-12 upload-files-block">
+        <p-fileUpload name="files[]" (onSelect)="handleUploader($event)" auto="auto" multiple="multiple"></p-fileUpload>
+      </div>
+    </div>
+    <div class="p-grid">
+      <div class="p-col-12">
+        <button *ngIf="productForm.invalid" pButton type="submit" disabled label="Создать продукт"></button>
+        <button *ngIf="productForm.valid" pButton type="submit" label="Создать продукт"></button>
       </div>
     </div>
   </form>

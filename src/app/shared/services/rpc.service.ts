@@ -31,11 +31,9 @@ export class RpcService<T extends {}> {
    * @param data   - набор данных, которые необходимо передать серверу
    * @return Observable<any> | throwError( error )
    */
-  public makePost( path: string, data?: T ): Observable<any> {
+  public makePost( path: string, data: any ): Observable<any> {
     return this.http.post<T[]>( this.apiUrl + path, data, this.getAuthHeaders() ).pipe(
-      map( event => {
-        return this.caseHttpEventType( event );
-      }),
+      map( event => this.caseHttpEventType( event ) ),
       catchError(error => {
         return throwError( error );
       })
