@@ -8,6 +8,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { FileUploadModule } from 'primeng/fileupload';
 import { UpdateComponent } from './components/update/update.component';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 /**
  * @classdesc - ProductModule функциональный модуль
@@ -21,6 +22,7 @@ import { UpdateComponent } from './components/update/update.component';
     SharedModule,
     ButtonModule,
     FileUploadModule,
+    ConfirmDialogModule,
     ReactiveFormsModule,
     ProductRoutingModule
   ]

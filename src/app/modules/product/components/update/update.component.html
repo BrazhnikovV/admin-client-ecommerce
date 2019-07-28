@@ -45,7 +45,7 @@
     </div>
     <div class="p-grid">
       <div class="p-col-12">
-        <app-list [cols]="colsImages" [entityList]="images" [deleteAction]="true"></app-list>
+        <app-list (childEvent)="onAction($event)" [cols]="colsImages" [entityList]="images" [deleteAction]="true"></app-list>
       </div>
     </div>
     <div class="p-grid">
@@ -56,3 +56,4 @@
     </div>
   </form>
 </div>
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>

@@ -15,7 +15,7 @@
       <td class="pi-align-center hide-before">
         <p-button *ngIf="!deleteAction; else elseBlock" icon="pi pi-pencil" routerLink="edit/{{record.id}}"></p-button>
         <ng-template #elseBlock>
-          <p-button icon="pi pi-ban" routerLink="delete/{{record.id}}"></p-button>
+          <p-button icon="pi pi-ban" (onClick)="onAction($event,record.id)"></p-button>
         </ng-template>
       </td>
     </tr>

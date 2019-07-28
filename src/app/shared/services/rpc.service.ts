@@ -26,13 +26,28 @@ export class RpcService<T extends {}> {
   constructor( private http: HttpClient) {}
 
   /**
-   * getCategories - получить список категорий
+   * makePost -
    * @param path   - путь определяющий сущность и операцию выполняемою на дней
    * @param data   - набор данных, которые необходимо передать серверу
    * @return Observable<any> | throwError( error )
    */
   public makePost( path: string, data: any ): Observable<any> {
     return this.http.post<T[]>( this.apiUrl + path, data, this.getAuthHeaders() ).pipe(
+      map( event => this.caseHttpEventType( event ) ),
+      catchError(error => {
+        return throwError( error );
+      })
+    );
+  }
+
+  /**
+   * makePut -
+   * @param path   - путь определяющий сущность и операцию выполняемою на дней
+   * @param data   - набор данных, которые необходимо передать серверу
+   * @return Observable<any> | throwError( error )
+   */
+  public makePut( path: string, data: any ): Observable<any> {
+    return this.http.put<T[]>( this.apiUrl + path, data, this.getAuthHeaders() ).pipe(
       map( event => this.caseHttpEventType( event ) ),
       catchError(error => {
         return throwError( error );
@@ -58,7 +73,7 @@ export class RpcService<T extends {}> {
   }
 
   /**
-   * getOrders - получить данные от сервера
+   * getAuthHeaders -
    * @return void
    */
   private getAuthHeaders(): {} {

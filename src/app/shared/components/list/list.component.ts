@@ -1,5 +1,5 @@
 'use strict';
-import { Component, Input, OnInit } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
 /**
  * @classdesc - ListComponent компонент отрисовки записей сущности в виде даблицы
@@ -11,6 +11,12 @@ import { Component, Input, OnInit } from '@angular/core';
   providers: []
 })
 export class ListComponent implements OnInit {
+
+  /**
+   * @var childEvent: EventEmitter<string>
+   */
+  @Output()
+  private childEvent = new EventEmitter<string>();
 
   /**
    * @var cols: [] - массив с названиями полей и колонок
@@ -39,4 +45,14 @@ export class ListComponent implements OnInit {
    * ngOnInit
    */
   ngOnInit() {}
+
+  /**
+   * onAction - подписаться на событие клика по кнопке удалить
+   * @param $event - объект события
+   * @param id - идентификатор изображения
+   */
+  onAction( $event , id: number ) {
+    $event.id = id;
+    this.childEvent.emit( $event );
+  }
 }
