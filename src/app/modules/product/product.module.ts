@@ -9,6 +9,7 @@ import { ButtonModule } from 'primeng/button';
 import { FileUploadModule } from 'primeng/fileupload';
 import { UpdateComponent } from './components/update/update.component';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { DialogModule } from 'primeng/dialog';
 
 /**
  * @classdesc - ProductModule функциональный модуль
@@ -21,6 +22,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
     CommonModule,
     SharedModule,
     ButtonModule,
+    DialogModule,
     FileUploadModule,
     ConfirmDialogModule,
     ReactiveFormsModule,

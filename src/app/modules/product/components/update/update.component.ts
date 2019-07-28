@@ -6,7 +6,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Image } from '../../models/image';
 import { ConfirmationService } from 'primeng/api';
-import {element} from 'protractor';
 
 /**
  * @classdesc - UpdateComponent компонент страницы обновления продукта
@@ -56,6 +55,11 @@ export class UpdateComponent implements OnInit {
    *  @var errors: [] - массив ошибок
    */
   private images: Image[];
+
+  /**
+   *  @var display: boolean -
+   */
+  private display: boolean;
 
   /**
    * constructor
@@ -173,8 +177,12 @@ export class UpdateComponent implements OnInit {
     this.confirmationService.confirm({
       message: 'Вы уверены, что хотите удалить эту запись?',
       accept: () => {
-        this.images = this.images.filter( r => r.id !== id );
-        this.productForm.get( 'images' ).setValue( this.images );
+        if ( this.images.length === 1 ) {
+          this.display = true;
+        } else {
+          this.images = this.images.filter( r => r.id !== id );
+          this.productForm.get( 'images' ).setValue( this.images );
+        }
       }
     });
   }
