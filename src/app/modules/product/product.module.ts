@@ -7,13 +7,14 @@ import { CreateComponent } from './components/create/create.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { FileUploadModule } from 'primeng/fileupload';
+import { UpdateComponent } from './components/update/update.component';
 
 /**
  * @classdesc - ProductModule функциональный модуль
  * для работы с продуктами
  */
 @NgModule({
-  declarations: [HomeComponent, CreateComponent],
+  declarations: [HomeComponent, CreateComponent, UpdateComponent],
   imports: [
     FormsModule,
     CommonModule,

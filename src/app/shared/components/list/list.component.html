@@ -7,13 +7,16 @@
       <th></th>
     </tr>
   </ng-template>
-  <ng-template pTemplate="body" let-user>
+  <ng-template pTemplate="body" let-record>
     <tr>
       <td *ngFor="let col of cols">
-        {{user[col['field']]}}
+        {{record[col['field']]}}
       </td>
       <td class="pi-align-center hide-before">
-        <p-button icon="pi pi-pencil" routerLink="edit/{{user.id}}"></p-button>
+        <p-button *ngIf="!deleteAction; else elseBlock" icon="pi pi-pencil" routerLink="edit/{{record.id}}"></p-button>
+        <ng-template #elseBlock>
+          <p-button icon="pi pi-ban" routerLink="delete/{{record.id}}"></p-button>
+        </ng-template>
       </td>
     </tr>
   </ng-template>

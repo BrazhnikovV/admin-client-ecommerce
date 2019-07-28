@@ -19,6 +19,12 @@ export class ListComponent implements OnInit {
   public cols: [];
 
   /**
+   * @var deleteAction: boolean -
+   */
+  @Input()
+  public deleteAction = false;
+
+  /**
    * @var entityList: [] - массив записей сущности
    */
   @Input()

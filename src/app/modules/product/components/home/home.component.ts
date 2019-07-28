@@ -50,7 +50,6 @@ export class HomeComponent implements OnInit {
           this.progress = response.message;
         } else {
           if ( response.type !== 0 && !response.hasOwnProperty('ok') ) {
-            console.log(response);
             this.productsList = response;
           }
         }
