@@ -23,3 +23,8 @@ table td.pi-align-center {
   width: 100%;
   height: 2px !important;
 }
+
+.th-btn {
+  width: 60px;
+  text-align: center
+}

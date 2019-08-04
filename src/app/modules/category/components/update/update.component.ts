@@ -2,15 +2,14 @@
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { ValidatorMessageComponent } from '../../../../shared/components/validator-message/validator-message.component';
 import { RpcService } from '../../../../shared/services/rpc.service';
-import { Product } from '../../models/product';
+import { Product } from '../../../product/models/product';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Image } from '../../models/image';
 import { ConfirmationService } from 'primeng/api';
 import { throwError } from 'rxjs';
 
 /**
- * @classdesc - UpdateComponent компонент страницы обновления продукта
+ * @classdesc - UpdateComponent компонент страницы обновления категории
  */
 @Component({
   selector: 'app-update',
@@ -26,14 +25,15 @@ export class UpdateComponent implements OnInit {
   private id: number;
 
   /**
-   * @var colsImages: [] - массив с названиями полей и колонок
-   * таблицы изображений продуктов
+   * @var colsProducts: [] - массив с названиями полей и колонок
+   * таблицы продуктов
    */
-  private colsImages = [
-    { field: 'id',             header: 'id',             class: 'th-btn' },
-    { field: 'name',           header: 'name',           class: '' },
-    { field: 'size',           header: 'size',           class: '' },
-    { field: 'description',    header: 'description',    class: '' }
+  private colsProducts = [
+    { field: 'id',             header: 'id',            class: 'th-btn' },
+    { field: 'name',           header: 'name',          class: '' },
+    { field: 'description',    header: 'description',   class: '' },
+    { field: 'price',          header: 'price',         class: '' },
+    { field: 'productNumber',  header: 'productNumber', class: '' }
   ];
 
   /**
@@ -44,19 +44,14 @@ export class UpdateComponent implements OnInit {
   private viewChildren: QueryList<ValidatorMessageComponent>;
 
   /**
-   *  @var formData: FormData - объект для передачи файлов post запросом
-   */
-  private formData: FormData = new FormData();
-
-  /**
    *  @var errors: [] - массив ошибок
    */
-  private errors: [];
+  private errors: [] = [];
 
   /**
-   *  @var images: Image[] - массив изображений продуктов
+   *  @var  products: Product[] - массив продуктов
    */
-  private images: Image[];
+  private products: Product[] = [];
 
   /**
    *  @var display: boolean -
@@ -65,7 +60,7 @@ export class UpdateComponent implements OnInit {
 
   /**
    * constructor
-   * @param rpcService -
+   * @param rpcService - сервис
    * @param activatedRoute -
    * @param router -
    * @param confirmationService -
@@ -79,9 +74,9 @@ export class UpdateComponent implements OnInit {
   }
 
   /**
-   *  @var customerForm: FormGroup - группа валидируемых полей
+   *  @var categoryForm: FormGroup - группа валидируемых полей
    */
-  private productForm: FormGroup = new FormGroup({
+  private categoryForm: FormGroup = new FormGroup({
     id: new FormControl('', [
       Validators.required
     ]),
@@ -94,21 +89,6 @@ export class UpdateComponent implements OnInit {
       Validators.required,
       Validators.minLength(4 ),
       Validators.maxLength(1024 )
-    ]),
-    price: new FormControl('' , [
-      Validators.required,
-      Validators.max(100000 )
-    ]),
-    files: new FormControl('' , [
-      Validators.required
-    ]),
-    images: new FormControl('', [
-      Validators.required
-    ]),
-    productNumber: new FormControl('' , [
-      Validators.required,
-      Validators.minLength( 5 ),
-      Validators.maxLength(5 )
     ])
   });
 
@@ -117,11 +97,10 @@ export class UpdateComponent implements OnInit {
    * @return void
    */
   onSubmit() {
-    this.formData.append('data', JSON.stringify( this.productForm.value ) );
-    this.rpcService.makePutWithFiles( 'products/update/' + this.id, this.formData ).subscribe(
+    this.rpcService.makePut( 'categories/update', this.categoryForm.value ).subscribe(
       response => {
         setTimeout( m => {
-          this.router.navigate(['/products'] );
+          this.router.navigate(['/categories'] );
         }, 500 );
       }, error => {
         console.log(error);
@@ -143,13 +122,17 @@ export class UpdateComponent implements OnInit {
    */
   ngOnInit() {
     if ( this.id > 0 ) {
-      const controls = this.productForm.controls;
-      this.rpcService.makeRequest('get', 'products/' + this.id ).subscribe(( response ) => {
-        Object.keys( response ).filter(key => controls.hasOwnProperty( key ) ).map( ( key ) => {
-          this.productForm.get( key ).setValue( response[key] );
+      const controls = this.categoryForm.controls;
+      this.rpcService.makeRequest('get', 'categories/' + this.id ).subscribe(( categories ) => {
+        Object.keys( categories ).filter( key => controls.hasOwnProperty( key ) ).map( ( key ) => {
+          this.categoryForm.get( key ).setValue( categories[key] );
         });
-        this.productForm.get( 'files' ).setValue( response.images );
-        this.images = response.images;
+      });
+
+      this.rpcService.makeRequest('get', 'products/list-by-category-id/' + this.id ).subscribe(( products ) => {
+        Object.keys( products ).filter( key =>  parseInt( key, 2 ) >= 0 ).map( ( key ) => {
+          this.products.push( products[key] );
+        });
       });
     } else {
       return throwError('Error: id less than zero.');
@@ -157,22 +140,7 @@ export class UpdateComponent implements OnInit {
   }
 
   /**
-   * handleUploader - обработать событие выбора файлов для загрузки
-   * @param event - событие выбора файлов
-   */
-  private handleUploader( event ) {
-
-    const fileList: FileList = event.originalEvent.target.files;
-    Object.keys( fileList ).map( file => {
-      this.productForm.get('files').setValue( fileList[file] );
-      this.formData.append('files', fileList[file] );
-    });
-
-    this.formData.append('data', JSON.stringify( this.productForm.value ) );
-  }
-
-  /**
-   * onAction - слушаем событие клика по кнопке удалить изображение
+   * onAction - слушаем событие удаления продукта
    * @param $event - объект события
    */
   private onAction( $event ) {
@@ -189,12 +157,10 @@ export class UpdateComponent implements OnInit {
     this.confirmationService.confirm({
       message: 'Вы уверены, что хотите удалить эту запись?',
       accept: () => {
-        if ( this.images.length === 1 ) {
-          this.display = true;
-        } else {
-          this.images = this.images.filter( r => r.id !== id );
-          this.productForm.get( 'images' ).setValue( this.images );
-        }
+        this.display = true;
+        this.rpcService.makeRequest('delete', 'products/delete/' + id ).subscribe(( response ) => {
+          this.products = this.products.filter( r => r.id !== id );
+        });
       }
     });
   }

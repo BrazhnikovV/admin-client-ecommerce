@@ -1,0 +1,48 @@
+<div class="p-grid">
+  <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()" class="form-horizontal p-col-12">
+    <div class="p-grid">
+      <div class="p-col-12 p-md-6">
+        <div class="p-grid">
+          <div class="p-col-12 p-md-12">
+            <app-validator-message [field]="categoryForm.get('name')"></app-validator-message>
+            <div class="ui-inputgroup">
+              <span class="ui-inputgroup-addon"><i class="pi pi-pw pi-user"></i></span>
+              <input (keyup)="inputChange()" type="text" pInputText placeholder="name" formControlName="name">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-col-12 p-md-6">
+        <div class="p-grid">
+          <div class="p-col-12 p-md-12">
+            <app-validator-message [field]="categoryForm.get('description')"></app-validator-message>
+            <div class="ui-inputgroup">
+              <span class="ui-inputgroup-addon"><i class="pi pi-pw pi-envelope"></i></span>
+              <input (keyup)="inputChange()" type="text" pInputText placeholder="description" formControlName="description">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-col-12">
+        <app-list (childEvent)="onAction($event)" [cols]="colsProducts" [entityList]="products" [deleteAction]="true"></app-list>
+      </div>
+      <div class="p-col-12">
+        <div class="p-grid">
+          <div class="p-col-12 p-md-6">
+            <button *ngIf="categoryForm.invalid" pButton type="submit" disabled label="Обновить категорию"></button>
+            <button *ngIf="categoryForm.valid" pButton type="submit" label="Обновить категорию"></button>
+          </div>
+          <div class="p-col-12 p-md-6">
+            <div class="p-grid">
+              <div class="p-col-6">
+                <button class="" pButton type="button" routerLink="/products/create/{{id}}" label="Добавить продукт"></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+

@@ -1,9 +1,9 @@
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { ValidatorMessageComponent } from '../../../../shared/components/validator-message/validator-message.component';
 import { RpcService } from '../../../../shared/services/rpc.service';
-import { Customer } from '../../../customer/models/customer';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
+import { Product } from '../../models/product';
 
 /**
  * @classdesc - CreateComponent компонент страницы создания продукта
@@ -14,6 +14,11 @@ import { Router } from '@angular/router';
   styleUrls: ['./create.component.css']
 })
 export class CreateComponent implements OnInit {
+
+  /**
+   * @var categoryId: number - идентификатор категории к которой принадлежит продукт
+   */
+  private categoryId: number;
 
   /**
    * @var viewChildren: QueryList<ValidatorMessageComponent> - список компонентов
@@ -35,8 +40,12 @@ export class CreateComponent implements OnInit {
   /**
    * constructor
    * @param rpcService - сервис
+   * @param activatedRoute -
+   * @param router -
    */
-  constructor( private rpcService: RpcService<Customer>, private router: Router ) {}
+  constructor( private rpcService: RpcService<Product>, private activatedRoute: ActivatedRoute, private router: Router ) {
+    this.categoryId = activatedRoute.snapshot.params['categoryId'];
+  }
 
   /**
    *  @var customerForm: FormGroup - группа валидируемых полей
@@ -71,12 +80,15 @@ export class CreateComponent implements OnInit {
    * @return void
    */
   onSubmit() {
-    this.rpcService.makePost( 'products/create', this.formData ).subscribe(
+    this.rpcService.makePostWithFiles( 'products/create/' + this.categoryId, this.formData ).subscribe(
       response => {
         setTimeout( m => {
           this.router.navigate(['/products'] );
         }, 500 );
-      }, error => { this.errors = error; }
+      }, error => {
+        console.log(error);
+        this.errors = error;
+      }
     );
   }
 

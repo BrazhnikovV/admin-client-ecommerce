@@ -1,18 +1,18 @@
 <p-table [value]="entityList" [resizableColumns]="true" [paginator]="true" [rows]="5">
   <ng-template pTemplate="header">
     <tr>
-      <th *ngFor="let col of cols">
+      <th class="{{col['class']}}" *ngFor="let col of cols">
         {{col['header']}}
       </th>
-      <th></th>
+      <th class="th-btn"></th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-record>
     <tr>
-      <td *ngFor="let col of cols">
+      <td class="{{col['class']}}" *ngFor="let col of cols">
         {{record[col['field']]}}
       </td>
-      <td class="pi-align-center hide-before">
+      <td class="pi-align-center hide-before th-btn">
         <p-button *ngIf="!deleteAction; else elseBlock" icon="pi pi-pencil" routerLink="edit/{{record.id}}"></p-button>
         <ng-template #elseBlock>
           <p-button icon="pi pi-ban" (onClick)="onAction($event,record.id)"></p-button>

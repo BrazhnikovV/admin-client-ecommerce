@@ -31,11 +31,26 @@ export class RpcService<T extends {}> {
    * @param data   - набор данных, которые необходимо передать серверу
    * @return Observable<any> | throwError( error )
    */
-  public makePost( path: string, data: any ): Observable<any> {
+  public makePost( path: string, data: T ): Observable<any> {
     return this.http.post<T[]>( this.apiUrl + path, data, this.getAuthHeaders() ).pipe(
       map( event => this.caseHttpEventType( event ) ),
       catchError(error => {
-        return throwError( error );
+        return throwError( 'Error: obviously invalid data structure.' );
+      })
+    );
+  }
+
+  /**
+   * makePostWithFiles -
+   * @param path   - путь определяющий сущность и операцию выполняемою на дней
+   * @param data   - набор данных, которые необходимо передать серверу
+   * @return Observable<any> | throwError( error )
+   */
+  public makePostWithFiles( path: string, data: any ): Observable<any> {
+    return this.http.post<T[]>( this.apiUrl + path, data, this.getAuthHeaders() ).pipe(
+      map( event => this.caseHttpEventType( event ) ),
+      catchError(error => {
+        return throwError( 'Error: obviously invalid data structure.' );
       })
     );
   }
@@ -46,11 +61,26 @@ export class RpcService<T extends {}> {
    * @param data   - набор данных, которые необходимо передать серверу
    * @return Observable<any> | throwError( error )
    */
-  public makePut( path: string, data: any ): Observable<any> {
+  public makePut( path: string, data: T ): Observable<any> {
     return this.http.put<T[]>( this.apiUrl + path, data, this.getAuthHeaders() ).pipe(
       map( event => this.caseHttpEventType( event ) ),
       catchError(error => {
         return throwError( error );
+      })
+    );
+  }
+
+  /**
+   * makePutWithFiles - отправить PUT - запрос к rest api вместе с файлами
+   * @param path   - путь определяющий сущность и операцию выполняемою на дней
+   * @param data   - набор данных, которые необходимо передать серверу
+   * @return Observable<any> | throwError( error )
+   */
+  public makePutWithFiles( path: string, data: any ): Observable<any> {
+    return this.http.put<T[]>( this.apiUrl + path, data, this.getAuthHeaders() ).pipe(
+      map( event => this.caseHttpEventType( event ) ),
+      catchError(error => {
+        return throwError( 'Error: obviously invalid data structure.' );
       })
     );
   }
@@ -73,7 +103,7 @@ export class RpcService<T extends {}> {
   }
 
   /**
-   * getAuthHeaders -
+   * getAuthHeaders - сформировать объект с заголовками
    * @return void
    */
   private getAuthHeaders(): {} {
@@ -89,8 +119,8 @@ export class RpcService<T extends {}> {
   }
 
   /**
-   * caseHttpEventType -
-   * @param event -
+   * caseHttpEventType - обрабатывает процесс загрузки(отправки) данных на сервер
+   * @param event - событие процесса
    */
   private caseHttpEventType( event ): {} {
     switch (event['type']) {

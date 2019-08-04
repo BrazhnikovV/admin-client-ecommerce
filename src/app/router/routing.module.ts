@@ -49,6 +49,12 @@ const routes: Routes = [
     data: {'breadCrumbName': 'Продукты'},
     //  canActivate:[AppGuard]
   },
+  {
+    path: 'categories',
+    loadChildren: 'src/app/modules/category/category.module',
+    data: {'breadCrumbName': 'Категории'},
+    //  canActivate:[AppGuard]
+  },
   { path: '**', component: Error404Component },
 ];
 
