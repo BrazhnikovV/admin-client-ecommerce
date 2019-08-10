@@ -11,6 +11,7 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { UpdateComponent } from './components/update/update.component';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
+import { InputSwitchModule } from 'primeng/inputswitch';
 
 /**
  * @classdesc - ProductModule функциональный модуль
@@ -25,6 +26,7 @@ import { DialogModule } from 'primeng/dialog';
     ButtonModule,
     DialogModule,
     FileUploadModule,
+    InputSwitchModule,
     ConfirmDialogModule,
     ReactiveFormsModule,
     ProductRoutingModule

@@ -10,6 +10,9 @@ import { ButtonModule } from 'primeng/button';
 import { UpdateComponent } from './components/update/update.component';
 import { ConfirmDialogModule } from 'primeng/primeng';
 
+/**
+ * @classdesc - CategoryModule функциональный модуль работы с категориями
+ */
 @NgModule({
   declarations: [HomeComponent, CreateComponent, UpdateComponent],
   imports: [

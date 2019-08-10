@@ -1,4 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
+
+table td {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 table td.hide-before:before {
   content: none !important;
 }
@@ -27,4 +34,15 @@ table td.pi-align-center {
 .th-btn {
   width: 60px;
   text-align: center
+}
+
+.two-in-one-cells {
+  margin-bottom: 0px;
+  padding-bottom: 0px
+}
+
+.inputswitch {
+  vertical-align: top;
+  font-size: 11pt;
+  margin-right: 10px;
 }

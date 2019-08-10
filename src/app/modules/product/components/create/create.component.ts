@@ -2,8 +2,9 @@ import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { ValidatorMessageComponent } from '../../../../shared/components/validator-message/validator-message.component';
 import { RpcService } from '../../../../shared/services/rpc.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import {ActivatedRoute, Router} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Product } from '../../models/product';
+import {ProductStatus} from '../../enums/product-status.enum';
 
 /**
  * @classdesc - CreateComponent компонент страницы создания продукта
@@ -65,7 +66,20 @@ export class CreateComponent implements OnInit {
       Validators.required,
       Validators.max(100000 )
     ]),
+    discount: new FormControl('' , [
+      Validators.required,
+      Validators.min(1 ),
+      Validators.max(99 )
+    ]),
+    amount: new FormControl('' , [
+      Validators.required,
+      Validators.min(1 ),
+      Validators.max(999 )
+    ]),
     files: new FormControl('' , [
+      Validators.required
+    ]),
+    productStatus: new FormControl('' , [
       Validators.required
     ]),
     productNumber: new FormControl('' , [
@@ -74,6 +88,11 @@ export class CreateComponent implements OnInit {
       Validators.maxLength(5 )
     ])
   });
+
+  /**
+   *  @var checked: boolean -
+   */
+  private checked: boolean;
 
   /**
    * onSubmit - перехватываем события откравки формы
@@ -118,5 +137,17 @@ export class CreateComponent implements OnInit {
     });
 
     this.formData.append('data', JSON.stringify( this.productForm.value ) );
+  }
+
+  /**
+   * handleChangeInputSwitch - слушать событие клика по перекличателю - "Сделка недели"
+   * @param $event - объкт события мыши
+   * @return void
+   */
+  handleChangeInputSwitch( $event: MouseEvent ) {
+    this.productForm.get('productStatus').setValue( ProductStatus.NORMAL );
+    if ( $event['checked'] ) {
+      this.productForm.get('productStatus').setValue( ProductStatus.DEAL_WEEK );
+    }
   }
 }

@@ -130,7 +130,7 @@ export class UpdateComponent implements OnInit {
       });
 
       this.rpcService.makeRequest('get', 'products/list-by-category-id/' + this.id ).subscribe(( products ) => {
-        Object.keys( products ).filter( key =>  parseInt( key, 2 ) >= 0 ).map( ( key ) => {
+        Object.keys( products ).filter( key =>  parseInt( key, 10 ) >= 0 ).map( ( key ) => {
           this.products.push( products[key] );
         });
       });

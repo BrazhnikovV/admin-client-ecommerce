@@ -1,7 +1,51 @@
 <div class="p-grid">
   <form [formGroup]="productForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data" class="form-horizontal p-col-12">
     <div class="p-grid">
-      <div class="p-col-12 p-md-6">
+      <div class="p-col-12 p-md-6 two-in-one-cells">
+        <div class="p-grid">
+          <div class="p-col-12 p-md-12">
+            <div class="p-grid">
+              <div class="p-col-12 p-md-6">
+                <app-validator-message [field]="productForm.get('price')"></app-validator-message>
+                <div class="ui-inputgroup">
+                  <span class="ui-inputgroup-addon"><i class="pi pi-pw pi-dollar"></i></span>
+                  <input (keyup)="inputChange()" type="text" pInputText placeholder="price" formControlName="price">
+                </div>
+              </div>
+              <div class="p-col-12 p-md-6">
+                <app-validator-message [field]="productForm.get('discount')"></app-validator-message>
+                <div class="ui-inputgroup">
+                  <span class="ui-inputgroup-addon"><i class="pi pi-pw pi-dollar"></i></span>
+                  <input (keyup)="inputChange()" type="text" pInputText placeholder="discount" formControlName="discount">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-col-12 p-md-6 two-in-one-cells">
+        <div class="p-grid">
+          <div class="p-col-12 p-md-12">
+            <div class="p-grid">
+              <div class="p-col-12 p-md-6">
+                <app-validator-message [field]="productForm.get('productNumber')"></app-validator-message>
+                <div class="ui-inputgroup">
+                  <span class="ui-inputgroup-addon"><i class="pi pi-pw pi-inbox"></i></span>
+                  <input (keyup)="inputChange()" type="text" pInputText placeholder="product number" formControlName="productNumber">
+                </div>
+              </div>
+              <div class="p-col-12 p-md-6">
+                <app-validator-message [field]="productForm.get('amount')"></app-validator-message>
+                <div class="ui-inputgroup">
+                  <span class="ui-inputgroup-addon"><i class="pi pi-pw pi-clone"></i></span>
+                  <input (keyup)="inputChange()" type="text" pInputText placeholder="amount" formControlName="amount">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-col-12 p-md-9">
         <div class="p-grid">
           <div class="p-col-12 p-md-12">
             <app-validator-message [field]="productForm.get('name')"></app-validator-message>
@@ -10,29 +54,23 @@
               <input (keyup)="inputChange()" type="text" pInputText placeholder="name" formControlName="name">
             </div>
           </div>
+        </div>
+      </div>
+      <div class="p-col-12 p-md-3">
+        <div class="p-grid">
           <div class="p-col-12 p-md-12">
-            <app-validator-message [field]="productForm.get('price')"></app-validator-message>
-            <div class="ui-inputgroup">
-              <span class="ui-inputgroup-addon"><i class="pi pi-pw pi-dollar"></i></span>
-              <input (keyup)="inputChange()" type="text" pInputText placeholder="price" formControlName="price">
-            </div>
+            <span class="inputswitch">сделка недели </span>
+            <p-inputSwitch (onChange)="handleChangeInputSwitch($event)" formControlName="productStatus"></p-inputSwitch>
           </div>
         </div>
       </div>
-      <div class="p-col-12 p-md-6">
+      <div class="p-col-12 p-md-12">
         <div class="p-grid">
           <div class="p-col-12 p-md-12">
             <app-validator-message [field]="productForm.get('description')"></app-validator-message>
             <div class="ui-inputgroup">
               <span class="ui-inputgroup-addon"><i class="pi pi-pw pi-list"></i></span>
               <input (keyup)="inputChange()" type="text" pInputText placeholder="description" formControlName="description">
-            </div>
-          </div>
-          <div class="p-col-12 p-md-12">
-            <app-validator-message [field]="productForm.get('productNumber')"></app-validator-message>
-            <div class="ui-inputgroup">
-              <span class="ui-inputgroup-addon"><i class="pi pi-pw pi-inbox"></i></span>
-              <input (keyup)="inputChange()" type="text" pInputText placeholder="product number" formControlName="productNumber">
             </div>
           </div>
         </div>
