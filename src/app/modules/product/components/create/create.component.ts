@@ -1,3 +1,4 @@
+'use strict';
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { ValidatorMessageComponent } from '../../../../shared/components/validator-message/validator-message.component';
 import { RpcService } from '../../../../shared/services/rpc.service';
@@ -90,11 +91,6 @@ export class CreateComponent implements OnInit {
   });
 
   /**
-   *  @var productStatus: string -
-   */
-  private productStatus: string;
-
-  /**
    * onSubmit - перехватываем события откравки формы
    * @return void
    */
@@ -134,23 +130,20 @@ export class CreateComponent implements OnInit {
     Object.keys( fileList ).map( file => {
       this.formData.append('files', fileList[file] );
     });
-
-    this.productForm.get('files').setValue( '--' );
-
-    // !Fixme необходимо формировать this.formData и при изменении полей
-    this.productForm.get('productStatus').setValue( this.productStatus )
+    this.productForm.get( 'files' ).setValue( fileList );
+    this.setIntegerValueForProductStatus();
     this.formData.append('data', JSON.stringify( this.productForm.value ) );
   }
 
   /**
-   * handleChangeInputSwitch - слушать событие клика по перекличателю - "Сделка недели"
-   * @param $event - объкт события мыши
+   * setIntegerValueForProductStatus
    * @return void
    */
-  handleChangeInputSwitch( $event: MouseEvent ) {
-    this.productStatus = ProductStatus.NORMAL;
-    if ( $event['checked'] ) {
-      this.productStatus = ProductStatus.DEAL_WEEK;
+  private setIntegerValueForProductStatus() {
+    if ( this.productForm.get( 'productStatus' ).value === true ) {
+      this.productForm.get( 'productStatus' ).setValue( 1 );
+    } else {
+      this.productForm.get( 'productStatus' ).setValue( 0 );
     }
   }
 }

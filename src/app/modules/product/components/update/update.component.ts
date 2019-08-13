@@ -121,9 +121,9 @@ export class UpdateComponent implements OnInit {
     images: new FormControl('', [
       Validators.required
     ]),
-    // productStatus: new FormControl('' , [
-    //  Validators.required
-    // ]),
+    productStatus: new FormControl('' , [
+      Validators.required
+    ]),
     productNumber: new FormControl('' , [
       Validators.required,
       Validators.minLength( 5 ),
@@ -136,6 +136,7 @@ export class UpdateComponent implements OnInit {
    * @return void
    */
   onSubmit() {
+    this.setIntegerValueForProductStatus();
     this.formData.append('data', JSON.stringify( this.productForm.value ) );
     this.rpcService.makePutWithFiles( 'products/update/' + this.id, this.formData ).subscribe(
       response => {
@@ -167,6 +168,7 @@ export class UpdateComponent implements OnInit {
         Object.keys( response ).filter( key => controls.hasOwnProperty( key ) ).map( ( key ) => {
           this.productForm.get( key ).setValue( response[key] );
         });
+        this.setBooleanValueForProductStatus();
         this.productForm.get( 'files' ).setValue( response.images );
         this.images = response.images;
       });
@@ -220,13 +222,14 @@ export class UpdateComponent implements OnInit {
   }
 
   /**
-   * setStringValueForProductStatus
+   * setIntegerValueForProductStatus
    * @return void
    */
-  private setStringValueForProductStatus() {
-    this.productForm.get( 'productStatus' ).setValue( 0 );
-    if ( this.productForm.get( 'productStatus' ).value === 1 ) {
+  private setIntegerValueForProductStatus() {
+    if ( this.productForm.get( 'productStatus' ).value === true ) {
       this.productForm.get( 'productStatus' ).setValue( 1 );
+    } else {
+      this.productForm.get( 'productStatus' ).setValue( 0 );
     }
   }
 
@@ -235,9 +238,10 @@ export class UpdateComponent implements OnInit {
    * @return void
    */
   private setBooleanValueForProductStatus() {
-    this.productForm.get( 'productStatus' ).setValue( 0 );
     if ( this.productForm.get( 'productStatus' ).value === ProductStatus.DEAL_WEEK ) {
-      this.productForm.get( 'productStatus' ).setValue( 1 );
+      this.productForm.get( 'productStatus' ).setValue( true );
+    } else {
+      this.productForm.get( 'productStatus' ).setValue( false );
     }
   }
 }
