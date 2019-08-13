@@ -90,9 +90,9 @@ export class CreateComponent implements OnInit {
   });
 
   /**
-   *  @var checked: boolean -
+   *  @var productStatus: string -
    */
-  private checked: boolean;
+  private productStatus: string;
 
   /**
    * onSubmit - перехватываем события откравки формы
@@ -132,10 +132,13 @@ export class CreateComponent implements OnInit {
 
     const fileList: FileList = event.originalEvent.target.files;
     Object.keys( fileList ).map( file => {
-      this.productForm.get('files').setValue( fileList[file] );
       this.formData.append('files', fileList[file] );
     });
 
+    this.productForm.get('files').setValue( '--' );
+
+    // !Fixme необходимо формировать this.formData и при изменении полей
+    this.productForm.get('productStatus').setValue( this.productStatus )
     this.formData.append('data', JSON.stringify( this.productForm.value ) );
   }
 
@@ -145,9 +148,9 @@ export class CreateComponent implements OnInit {
    * @return void
    */
   handleChangeInputSwitch( $event: MouseEvent ) {
-    this.productForm.get('productStatus').setValue( ProductStatus.NORMAL );
+    this.productStatus = ProductStatus.NORMAL;
     if ( $event['checked'] ) {
-      this.productForm.get('productStatus').setValue( ProductStatus.DEAL_WEEK );
+      this.productStatus = ProductStatus.DEAL_WEEK;
     }
   }
 }

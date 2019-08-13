@@ -8,6 +8,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Image } from '../../models/image';
 import { ConfirmationService } from 'primeng/api';
 import { throwError } from 'rxjs';
+import { ProductStatus } from '../../enums/product-status.enum';
 
 /**
  * @classdesc - UpdateComponent компонент страницы обновления продукта
@@ -64,6 +65,11 @@ export class UpdateComponent implements OnInit {
   private display: boolean;
 
   /**
+   *  @var productStatus: ProductStatus -
+   */
+  private productStatus: ProductStatus;
+
+  /**
    * constructor
    * @param rpcService -
    * @param activatedRoute -
@@ -99,12 +105,25 @@ export class UpdateComponent implements OnInit {
       Validators.required,
       Validators.max(100000 )
     ]),
+    discount: new FormControl('' , [
+      Validators.required,
+      Validators.min(0 ),
+      Validators.max(99 )
+    ]),
+    amount: new FormControl('' , [
+      Validators.required,
+      Validators.min(0 ),
+      Validators.max(999 )
+    ]),
     files: new FormControl('' , [
       Validators.required
     ]),
     images: new FormControl('', [
       Validators.required
     ]),
+    // productStatus: new FormControl('' , [
+    //  Validators.required
+    // ]),
     productNumber: new FormControl('' , [
       Validators.required,
       Validators.minLength( 5 ),
@@ -145,7 +164,7 @@ export class UpdateComponent implements OnInit {
     if ( this.id > 0 ) {
       const controls = this.productForm.controls;
       this.rpcService.makeRequest('get', 'products/' + this.id ).subscribe(( response ) => {
-        Object.keys( response ).filter(key => controls.hasOwnProperty( key ) ).map( ( key ) => {
+        Object.keys( response ).filter( key => controls.hasOwnProperty( key ) ).map( ( key ) => {
           this.productForm.get( key ).setValue( response[key] );
         });
         this.productForm.get( 'files' ).setValue( response.images );
@@ -154,6 +173,7 @@ export class UpdateComponent implements OnInit {
     } else {
       return throwError('Error: id less than zero.');
     }
+    console.log(this.productForm);
   }
 
   /**
@@ -197,5 +217,27 @@ export class UpdateComponent implements OnInit {
         }
       }
     });
+  }
+
+  /**
+   * setStringValueForProductStatus
+   * @return void
+   */
+  private setStringValueForProductStatus() {
+    this.productForm.get( 'productStatus' ).setValue( 0 );
+    if ( this.productForm.get( 'productStatus' ).value === 1 ) {
+      this.productForm.get( 'productStatus' ).setValue( 1 );
+    }
+  }
+
+  /**
+   * setBooleanValueForProductStatus
+   * @return void
+   */
+  private setBooleanValueForProductStatus() {
+    this.productForm.get( 'productStatus' ).setValue( 0 );
+    if ( this.productForm.get( 'productStatus' ).value === ProductStatus.DEAL_WEEK ) {
+      this.productForm.get( 'productStatus' ).setValue( 1 );
+    }
   }
 }
