@@ -9,6 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { UpdateComponent } from './components/update/update.component';
 import { ConfirmDialogModule } from 'primeng/primeng';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 
 /**
  * @classdesc - CategoryModule функциональный модуль работы с категориями
@@ -22,6 +23,7 @@ import { ConfirmDialogModule } from 'primeng/primeng';
     ButtonModule,
     ConfirmDialogModule,
     ReactiveFormsModule,
+    InputTextareaModule,
     CategoryRoutingModule
   ]
 })

@@ -30,6 +30,7 @@ export class CreateComponent implements OnInit {
   /**
    * constructor
    * @param rpcService - сервис
+   * @param router - маршрутизатор
    */
   constructor( private rpcService: RpcService<Category>, private router: Router ) {}
 
