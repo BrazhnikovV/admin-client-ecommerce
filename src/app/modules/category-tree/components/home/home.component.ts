@@ -1,10 +1,10 @@
 'use strict';
-import {Component, OnInit, QueryList, ViewChildren} from '@angular/core';
-import {RpcService} from '../../../../shared/services/rpc.service';
-import {CategoryTree} from '../../models/category-tree';
-import {Router} from '@angular/router';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {ValidatorMessageComponent} from '../../../../shared/components/validator-message/validator-message.component';
+import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { RpcService } from '../../../../shared/services/rpc.service';
+import { CategoryTree } from '../../models/category-tree';
+import { Router } from '@angular/router';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ValidatorMessageComponent } from '../../../../shared/components/validator-message/validator-message.component';
 
 /**
  * @classdesc - HomeComponent корневой компонент функционального модуля
@@ -35,6 +35,11 @@ export class HomeComponent implements OnInit {
    *  @var errors: [] - массив ошибок
    */
   private errors: [];
+
+  /**
+   *  @var display: boolean -
+   */
+  private display = false;
 
   /**
    * @var viewChildren: QueryList<ValidatorMessageComponent> - список компонентов
@@ -89,7 +94,7 @@ export class HomeComponent implements OnInit {
    * @param $event - событие
    * @return void
    */
-  nodeSelect( $event: any ) {
+  private nodeSelect( $event: any ) {
     console.log( $event );
     this.categoryTreeForm.get( 'label' ).setValue( $event.node.label );
     this.categoryTreeForm.get( 'data' ).setValue( $event.node.data );
@@ -99,7 +104,7 @@ export class HomeComponent implements OnInit {
    * inputChange - перехватываем событие набора символов в текстовых полях
    * @return void
    */
-  inputChange() {
+  private inputChange() {
     this.viewChildren.forEach( child => child.ngOnChanges() );
   }
 
@@ -107,7 +112,7 @@ export class HomeComponent implements OnInit {
    * onSubmit - перехватываем события откравки формы
    * @return void
    */
-  onSubmit() {
+  private onSubmit() {
     this.rpcService.makePost( 'categories-tree/create', this.categoryTreeForm.value ).subscribe(
       response => {
         setTimeout( m => {
@@ -118,5 +123,22 @@ export class HomeComponent implements OnInit {
         this.errors = error;
       }
     );
+  }
+
+  /**
+   * onCreateBranch - слушает событие клика по кнопке - добавить ветку
+   */
+  private onCreateBranch() {
+    // this.categoryTreeForm.reset();
+    this.display = true;
+  }
+
+  /**
+   * onChildEvent - слушать событие потомка
+   * @param $event - событие потомка
+   * @return void
+   */
+  private onChildEvent($event: string) {
+    this.display = false;
   }
 }
