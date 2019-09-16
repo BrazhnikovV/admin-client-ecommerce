@@ -55,6 +55,12 @@ const routes: Routes = [
     data: {'breadCrumbName': 'Категории'},
     //  canActivate:[AppGuard]
   },
+  {
+    path: 'categories-tree',
+    loadChildren: 'src/app/modules/category-tree/category-tree.module',
+    data: {'breadCrumbName': 'Категории'},
+    //  canActivate:[AppGuard]
+  },
   { path: '**', component: Error404Component },
 ];
 

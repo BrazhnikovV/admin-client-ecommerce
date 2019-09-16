@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
 import { CreateComponent } from './components/create/create.component';
-import {UpdateComponent} from './components/update/update.component';
+import { UpdateComponent } from './components/update/update.component';
 
 /**
  * @var routes: Routes - массив маршрутов модуля

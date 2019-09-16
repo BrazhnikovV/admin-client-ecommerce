@@ -60,6 +60,11 @@ export class LeftMenuComponent implements OnInit {
           { label: 'Добавить категорию', icon: 'pi pi-pw pi-plus-circle', routerLink: '/categories/create' },
           { label: 'Список продуктов', icon: 'pi pi-pw pi-list', routerLink: '/products' }
         ]
+      },
+      { label: 'Дерево категорий', icon: 'pi pi-pw pi-bars', items:
+          [
+            { label: 'Дерево', icon: 'pi pi-pw pi-list', routerLink: '/categories-tree' }
+          ]
       }
     ];
   }
