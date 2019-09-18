@@ -6,6 +6,7 @@
           <app-validator-message [field]="categoryTreeForm.get('label')"></app-validator-message>
           <div class="ui-inputgroup">
             <span class="ui-inputgroup-addon"><i class="pi pi-pw pi-user"></i></span>
+            <input type="hidden" pInputText formControlName="parentId">
             <input (keyup)="inputChange()" type="text" pInputText placeholder="Название" formControlName="label">
           </div>
         </div>

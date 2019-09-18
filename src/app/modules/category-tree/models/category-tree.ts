@@ -3,6 +3,17 @@
  * @description - Category CategoryTree модели дерево категорий
  */
 export interface CategoryTree {
+
+  /**
+   * @var id: number
+   */
+  id: number;
+
+  /**
+   * @var parentId: number
+   */
+  parentId: number;
+
   /**
    * @var label: string
    */

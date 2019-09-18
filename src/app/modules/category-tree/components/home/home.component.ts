@@ -7,6 +7,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ValidatorMessageComponent } from '../../../../shared/components/validator-message/validator-message.component';
 import { isNull, isUndefined } from 'util';
 import { ModalFormComponent } from '../modal-form/modal-form.component';
+import { isArray } from 'rxjs/internal-compatibility';
 
 /**
  * @classdesc - HomeComponent корневой компонент функционального модуля
@@ -72,6 +73,10 @@ export class HomeComponent implements OnInit {
    *  @var categoryTreeForm: FormGroup - группа валидируемых полей
    */
   private categoryTreeForm: FormGroup = new FormGroup({
+    parentId: new FormControl('', [
+      Validators.required,
+      Validators.minLength(0 )
+    ]),
     label: new FormControl('', [
       Validators.required,
       Validators.minLength(4 ),
@@ -108,9 +113,10 @@ export class HomeComponent implements OnInit {
    * @return void
    */
   private nodeSelect( $event: any ) {
-    console.log( $event );
-    this.categoryTreeForm.get( 'label' ).setValue( $event.node.label );
-    this.categoryTreeForm.get( 'data' ).setValue( $event.node.data );
+    const formControls = this.categoryTreeForm.controls;
+    Object.keys($event.node).filter( filterKey => formControls.hasOwnProperty( filterKey ) ).map( ( key) => {
+      formControls[key].setValue( $event.node[key] );
+    });
   }
 
   /**
@@ -126,16 +132,7 @@ export class HomeComponent implements OnInit {
    * @return void
    */
   private onSubmit() {
-    this.rpcService.makePost( 'categories-tree/create', this.categoryTreeForm.value ).subscribe(
-      response => {
-        setTimeout( m => {
-          this.router.navigate(['/categories-tree'] );
-        }, 500 );
-      }, error => {
-        console.log(error);
-        this.errors = error;
-      }
-    );
+
   }
 
   /**
@@ -153,11 +150,8 @@ export class HomeComponent implements OnInit {
    * onCreateNode - слушает событие клика по кнопке - добавить узел
    */
   private onCreateNode() {
-    // categoryTree
     // this.categoryTreeForm.reset();
-    if ( isUndefined( this.selectedNode ) || isNull( this.selectedNode ) ) {
-      this.display = true;
-    }
+    this.display = true;
     // console.log(this.categoryTree);
   }
 
@@ -166,8 +160,42 @@ export class HomeComponent implements OnInit {
    * @param $event - событие потомка
    * @return void
    */
-  private onChildEvent($event: string) {
+  private onChildEvent( $event: string ) {
+    if ( $event === 'onCreate' ) {
+      if ( isUndefined( this.selectedNode ) || isNull( this.selectedNode ) ) {
+
+        const parentId = this.categoryTree.filter( (catTree, index) => index === 0 )[0]['parentId'];
+        this.updateCategoryTree( parentId );
+
+      } else {
+        console.log(this.selectedNode);
+      }
+    }
     this.displayDialog = false;
     this.display = false;
+  }
+
+  /**
+   * updateCategoryTree
+   * @param parentId -
+   * @return void
+   */
+  private updateCategoryTree( parentId: number ) {
+
+    const modalCategoryTreeForm = this.viewChildrenFormDialog.first.modalCategoryTreeForm;
+    modalCategoryTreeForm.get('parentId').setValue( parentId );
+    this.rpcService.makePost( 'categories-tree/create', modalCategoryTreeForm.value  ).subscribe(
+      response => {
+        setTimeout( m => {
+          if ( isArray(response) ) {
+            this.categoryTree = response;
+          }
+          this.router.navigate(['/categories-tree'] );
+        }, 300 );
+      }, error => {
+        console.log(error);
+        this.errors = error;
+      }
+    );
   }
 }
