@@ -150,6 +150,7 @@ export class HomeComponent implements OnInit {
    * @return void
    */
   private onChildEvent($event: string) {
+    this.displayDialog = false;
     this.display = false;
   }
 }

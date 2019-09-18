@@ -1,5 +1,5 @@
 'use strict';
-import {Component, Input, OnInit} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 /**
  * @classdesc - ModalDialogComponent компонент для вывода сообщений пользователю
@@ -12,10 +12,16 @@ import {Component, Input, OnInit} from '@angular/core';
 export class ModalDialogComponent implements OnInit {
 
   /**
+   * @var childEvent: EventEmitter<string>
+   */
+  @Output()
+  private childEvent = new EventEmitter<string>();
+
+  /**
    *  @var display: boolean -
    */
   @Input()
-  private display = false;
+  private display: boolean;
 
   /**
    * constructor - конструктор
@@ -26,4 +32,11 @@ export class ModalDialogComponent implements OnInit {
    * ngOnInit
    */
   ngOnInit() {}
+
+  /**
+   * onHide - слушать событие закрытия окна
+   */
+  private onHide() {
+    this.childEvent.emit( 'onHide' );
+  }
 }

@@ -1,4 +1,4 @@
-<p-dialog header="Важно!" [(visible)]="display" [modal]="true" [dismissableMask]="true">
+<p-dialog header="Важно!" [(visible)]="display" (onHide)="onHide()" [modal]="true" [dismissableMask]="true">
   <p-header>
 
   </p-header>
