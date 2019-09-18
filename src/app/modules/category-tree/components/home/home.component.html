@@ -16,10 +16,10 @@
         <div class="p-col-12 p-md-12">
           <div class="p-grid">
             <div class="p-col-12 p-md-1">
-              <p-button type="button" (onClick)="onCreateBranch()" title="Создать ветку" icon="pi pi-plus" label=""></p-button>
+              <p-button type="button" (onClick)="onCreateNode()" title="Создать узел" icon="pi pi-plus" label=""></p-button>
             </div>
             <div class="p-col-12 p-md-1">
-              <p-button icon="pi pi-arrow-right" title="Создать узел" label=""></p-button>
+              <p-button icon="pi pi-arrow-right" (onClick)="onCreateBranch()" title="Создать ветку" label=""></p-button>
             </div>
             <div class="p-col-12 p-md-1">
               <p-button icon="pi pi-ban" title="Удалить" label=""></p-button>

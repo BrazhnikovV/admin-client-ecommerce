@@ -5,7 +5,8 @@ import { CategoryTree } from '../../models/category-tree';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ValidatorMessageComponent } from '../../../../shared/components/validator-message/validator-message.component';
-import {isNull, isUndefined} from 'util';
+import { isNull, isUndefined } from 'util';
+import { ModalFormComponent } from '../modal-form/modal-form.component';
 
 /**
  * @classdesc - HomeComponent корневой компонент функционального модуля
@@ -53,6 +54,12 @@ export class HomeComponent implements OnInit {
    */
   @ViewChildren( ValidatorMessageComponent )
   private viewChildren: QueryList<ValidatorMessageComponent>;
+
+  /**
+   * @var viewChildrenFormDialog: QueryList<viewChildrenFormDialog> -
+   */
+  @ViewChildren( ModalFormComponent )
+  private viewChildrenFormDialog: QueryList<ModalFormComponent>;
 
   /**
    * constructor - конструктор
@@ -135,13 +142,23 @@ export class HomeComponent implements OnInit {
    * onCreateBranch - слушает событие клика по кнопке - добавить ветку
    */
   private onCreateBranch() {
-    // this.categoryTreeForm.reset();
-    console.log(this.selectedNode);
     if ( isUndefined( this.selectedNode ) || isNull( this.selectedNode ) ) {
       this.displayDialog = true;
     } else {
       this.display = true;
     }
+  }
+
+  /**
+   * onCreateNode - слушает событие клика по кнопке - добавить узел
+   */
+  private onCreateNode() {
+    // categoryTree
+    // this.categoryTreeForm.reset();
+    if ( isUndefined( this.selectedNode ) || isNull( this.selectedNode ) ) {
+      this.display = true;
+    }
+    // console.log(this.categoryTree);
   }
 
   /**

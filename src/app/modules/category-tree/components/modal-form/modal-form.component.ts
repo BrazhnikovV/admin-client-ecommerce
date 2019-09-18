@@ -48,9 +48,9 @@ export class ModalFormComponent implements OnInit {
   constructor( private rpcService: RpcService<CategoryTree[]>, private router: Router ) {}
 
   /**
-   *  @var categoryTreeForm: FormGroup - группа валидируемых полей
+   *  @var modalCategoryTreeForm: FormGroup - группа валидируемых полей
    */
-  private categoryTreeForm: FormGroup = new FormGroup({
+  public modalCategoryTreeForm: FormGroup = new FormGroup({
     label: new FormControl('', [
       Validators.required,
       Validators.minLength(4 ),
@@ -80,7 +80,7 @@ export class ModalFormComponent implements OnInit {
    * onSubmit -
    */
   private onSubmit() {
-    this.rpcService.makePost( 'categories-tree/create', this.categoryTreeForm.value ).subscribe(
+    this.rpcService.makePost( 'categories-tree/create', this.modalCategoryTreeForm.value ).subscribe(
       response => {
         setTimeout( m => {
           this.router.navigate(['/categories-tree'] );
