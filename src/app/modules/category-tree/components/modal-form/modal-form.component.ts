@@ -26,12 +26,13 @@ export class ModalFormComponent implements OnInit {
    * @var display: boolean
    */
   @Input()
-  private display = false;
+  private display: boolean;
 
   /**
-   *  @var errors: [] - массив ошибок
+   * @var isUpdate: boolean
    */
-  private errors: [];
+  @Input()
+  private isUpdate: boolean;
 
   /**
    * @var viewChildren: QueryList<ValidatorMessageComponent> - список компонентов
@@ -84,9 +85,11 @@ export class ModalFormComponent implements OnInit {
    * onSubmit -
    */
   private onSubmit() {
-    this.childEvent.emit( 'onCreate' );
-    return false;
-    // =========================================
+    if ( this.isUpdate ) {
+      this.childEvent.emit( 'onUpdateNode' );
+    } else {
+      this.childEvent.emit( 'onCreateNode' );
+    }
   }
 
   /**

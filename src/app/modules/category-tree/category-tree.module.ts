@@ -10,6 +10,7 @@ import { TreeModule } from 'primeng/tree';
 import { DialogModule } from 'primeng/dialog';
 import { ModalFormComponent } from './components/modal-form/modal-form.component';
 import { ModalDialogComponent } from './components/modal-dialog/modal-dialog.component';
+import { PanelModule } from 'primeng/panel';
 
 /**
  * @classdesc - CategoryTreeModule функциональный модуль работы с деревом категорий
@@ -18,6 +19,7 @@ import { ModalDialogComponent } from './components/modal-dialog/modal-dialog.com
   declarations: [HomeComponent, ModalFormComponent, ModalDialogComponent],
   imports: [
     TreeModule,
+    PanelModule,
     FormsModule,
     CommonModule,
     SharedModule,

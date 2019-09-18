@@ -50,6 +50,16 @@ export class HomeComponent implements OnInit {
   private displayDialog: boolean;
 
   /**
+   *  @var titleNode: string -
+   */
+  private titleNode = '-';
+
+  /**
+   *  @var dataNode: string -
+   */
+  private dataNode = 'Не выбрано.';
+
+  /**
    * @var viewChildren: QueryList<ValidatorMessageComponent> - список компонентов
    * для отображения сообщений валидатора
    */
@@ -63,31 +73,16 @@ export class HomeComponent implements OnInit {
   private viewChildrenFormDialog: QueryList<ModalFormComponent>;
 
   /**
+   * @var isUpdate: boolean -
+   */
+  private isUpdate: boolean;
+
+  /**
    * constructor - конструктор
    * @param rpcService - сервис
    * @param router - маршрутизатор
    */
   constructor( private rpcService: RpcService<CategoryTree[]>, private router: Router ) {}
-
-  /**
-   *  @var categoryTreeForm: FormGroup - группа валидируемых полей
-   */
-  private categoryTreeForm: FormGroup = new FormGroup({
-    parentId: new FormControl('', [
-      Validators.required,
-      Validators.minLength(0 )
-    ]),
-    label: new FormControl('', [
-      Validators.required,
-      Validators.minLength(4 ),
-      Validators.maxLength(32 )
-    ]),
-    data: new FormControl('' , [
-      Validators.required,
-      Validators.minLength(4 ),
-      Validators.maxLength(1024 )
-    ])
-  });
 
   /**
    * ngOnInit
@@ -113,10 +108,8 @@ export class HomeComponent implements OnInit {
    * @return void
    */
   private nodeSelect( $event: any ) {
-    const formControls = this.categoryTreeForm.controls;
-    Object.keys($event.node).filter( filterKey => formControls.hasOwnProperty( filterKey ) ).map( ( key) => {
-      formControls[key].setValue( $event.node[key] );
-    });
+    this.titleNode = $event.node.label;
+    this.dataNode = $event.node.data;
   }
 
   /**
@@ -128,31 +121,34 @@ export class HomeComponent implements OnInit {
   }
 
   /**
-   * onSubmit - перехватываем события откравки формы
-   * @return void
+   * onUpdateNode - слушает событие клика по кнопке - обновить узел
    */
-  private onSubmit() {
-
-  }
-
-  /**
-   * onCreateBranch - слушает событие клика по кнопке - добавить ветку
-   */
-  private onCreateBranch() {
+  private onUpdateNode() {
+    console.log('onUpdateNode ==>');
     if ( isUndefined( this.selectedNode ) || isNull( this.selectedNode ) ) {
       this.displayDialog = true;
     } else {
       this.display = true;
     }
+    this.isUpdate = false;
   }
 
   /**
    * onCreateNode - слушает событие клика по кнопке - добавить узел
    */
   private onCreateNode() {
-    // this.categoryTreeForm.reset();
+    console.log('onCreateNode ==>');
+    if ( !isUndefined( this.selectedNode ) && !isNull( this.selectedNode ) ) {
+      const formDialogControls = this.viewChildrenFormDialog.first.modalCategoryTreeForm.controls;
+      Object.keys(this.selectedNode).filter( filterKey => formDialogControls.hasOwnProperty( filterKey ) ).map( ( key) => {
+        formDialogControls[key].setValue( this.selectedNode[key] );
+      });
+    } else {
+      // console.log(this.categoryTree);
+    }
+
     this.display = true;
-    // console.log(this.categoryTree);
+    this.isUpdate = true;
   }
 
   /**
@@ -161,15 +157,18 @@ export class HomeComponent implements OnInit {
    * @return void
    */
   private onChildEvent( $event: string ) {
-    if ( $event === 'onCreate' ) {
+    if ( $event === 'onUpdateNode' ) {
       if ( isUndefined( this.selectedNode ) || isNull( this.selectedNode ) ) {
-
         const parentId = this.categoryTree.filter( (catTree, index) => index === 0 )[0]['parentId'];
         this.updateCategoryTree( parentId );
 
       } else {
         console.log(this.selectedNode);
       }
+    } else if ( $event === 'onCreateNode' ) {
+      console.log('onCreateNode');
+    } else {
+      console.log('else');
     }
     this.displayDialog = false;
     this.display = false;

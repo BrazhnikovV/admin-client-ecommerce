@@ -1,5 +1,5 @@
 <form [formGroup]="modalCategoryTreeForm" (ngSubmit)="onSubmit()" class="form-horizontal p-col-12">
-  <p-dialog positionTop="0" (onHide)="onHide()" header="Title" [(visible)]="display" [modal]="true" [dismissableMask]="true">
+  <p-dialog positionTop="50" (onHide)="onHide()" header="Title" [(visible)]="display" [modal]="true" [dismissableMask]="true">
     <div class="p-grid">
       <div class="p-col-12">
         <app-validator-message [field]="modalCategoryTreeForm.get('label')"></app-validator-message>
