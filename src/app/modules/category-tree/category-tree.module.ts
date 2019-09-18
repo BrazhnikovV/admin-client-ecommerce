@@ -9,12 +9,13 @@ import { ButtonModule } from 'primeng/button';
 import { TreeModule } from 'primeng/tree';
 import { DialogModule } from 'primeng/dialog';
 import { ModalFormComponent } from './components/modal-form/modal-form.component';
+import { ModalDialogComponent } from './components/modal-dialog/modal-dialog.component';
 
 /**
  * @classdesc - CategoryTreeModule функциональный модуль работы с деревом категорий
  */
 @NgModule({
-  declarations: [HomeComponent, ModalFormComponent],
+  declarations: [HomeComponent, ModalFormComponent, ModalDialogComponent],
   imports: [
     TreeModule,
     FormsModule,

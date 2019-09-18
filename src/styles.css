@@ -46,3 +46,8 @@ table td.pi-align-center {
   font-size: 11pt;
   margin-right: 10px;
 }
+
+.p-footer-model-dialog {
+  font-size: 9pt;
+  color: #666666;
+}

@@ -15,11 +15,14 @@
         </div>
         <div class="p-col-12 p-md-12">
           <div class="p-grid">
-            <div class="p-col-12 p-md-6">
-              <p-button type="button" (onClick)="onCreateBranch()" icon="pi pi-plus" label="Создать ветку"></p-button>
+            <div class="p-col-12 p-md-1">
+              <p-button type="button" (onClick)="onCreateBranch()" title="Создать ветку" icon="pi pi-plus" label=""></p-button>
             </div>
-            <div class="p-col-12 p-md-6">
-              <p-button icon="pi pi-plus" label="Создать узел"></p-button>
+            <div class="p-col-12 p-md-1">
+              <p-button icon="pi pi-arrow-right" title="Создать узел" label=""></p-button>
+            </div>
+            <div class="p-col-12 p-md-1">
+              <p-button icon="pi pi-ban" title="Удалить" label=""></p-button>
             </div>
           </div>
         </div>
@@ -36,6 +39,9 @@
 </form>
 <div class="p-grid">
   <app-modal-form [display]="display" (childEvent)="onChildEvent($event)"></app-modal-form>
+</div>
+<div class="p-grid">
+  <app-modal-dialog [display]="displayDialog"></app-modal-dialog>
 </div>
 
 

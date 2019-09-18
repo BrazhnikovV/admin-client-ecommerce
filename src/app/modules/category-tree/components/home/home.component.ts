@@ -5,6 +5,7 @@ import { CategoryTree } from '../../models/category-tree';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ValidatorMessageComponent } from '../../../../shared/components/validator-message/validator-message.component';
+import {isNull, isUndefined} from 'util';
 
 /**
  * @classdesc - HomeComponent корневой компонент функционального модуля
@@ -39,7 +40,12 @@ export class HomeComponent implements OnInit {
   /**
    *  @var display: boolean -
    */
-  private display = false;
+  private display: boolean;
+
+  /**
+   *  @var displayDialog: boolean -
+   */
+  private displayDialog: boolean;
 
   /**
    * @var viewChildren: QueryList<ValidatorMessageComponent> - список компонентов
@@ -130,7 +136,12 @@ export class HomeComponent implements OnInit {
    */
   private onCreateBranch() {
     // this.categoryTreeForm.reset();
-    this.display = true;
+    console.log(this.selectedNode);
+    if ( isUndefined( this.selectedNode ) || isNull( this.selectedNode ) ) {
+      this.displayDialog = true;
+    } else {
+      this.display = true;
+    }
   }
 
   /**
