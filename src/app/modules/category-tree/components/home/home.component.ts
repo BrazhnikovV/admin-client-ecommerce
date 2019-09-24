@@ -3,13 +3,9 @@ import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { RpcService } from '../../../../shared/services/rpc.service';
 import { CategoryTree } from '../../models/category-tree';
 import { Router } from '@angular/router';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ValidatorMessageComponent } from '../../../../shared/components/validator-message/validator-message.component';
 import { isNull, isUndefined } from 'util';
 import { ModalFormComponent } from '../modal-form/modal-form.component';
 import { isArray } from 'rxjs/internal-compatibility';
-import CategoryTreeModule from '../../category-tree.module';
-import {TreeNode} from 'primeng/api';
 
 /**
  * @classdesc - HomeComponent корневой компонент функционального модуля
@@ -73,14 +69,14 @@ export class HomeComponent implements OnInit {
   private isUpdate: boolean;
 
   /**
-   * @var isUpdate: boolean -
+   * @var isDisabledDelete: boolean -
    */
   private isDisabledDelete: boolean;
 
   /**
    * @var loadingTree: boolean -
    */
-  loadingTree = true;
+  private loadingTree = true;
 
   /**
    * constructor - конструктор
@@ -147,6 +143,9 @@ export class HomeComponent implements OnInit {
       } else {
         this.createCategoryTree( this.selectedNode.id );
       }
+    } else if ( $event === 'onDeleteNode' ) {
+      this.viewChildrenFormDialog.first.modalCategoryTreeForm.reset();
+      this.removeOrListCategoryTree( 'delete', 'categories-tree/delete/' + this.selectedNode.id );
     } else {
       console.log('close');
     }
@@ -166,6 +165,7 @@ export class HomeComponent implements OnInit {
     this.rpcService.makePost( 'categories-tree/create', modalCategoryTreeForm.value  ).subscribe(
       response => {
         this.handlerSuccessResponse( response );
+        this.resetDataNode();
       }, error => {
         this.handlerErrorResponse( error );
       }
@@ -220,6 +220,7 @@ export class HomeComponent implements OnInit {
             this.categoryTree = response;
           }
         }
+        this.resetDataNode();
       }
     }, error => {
       this.handlerErrorResponse( error );
@@ -231,11 +232,7 @@ export class HomeComponent implements OnInit {
    * @return void
    */
   private onRemoveNode() {
-    if ( isUndefined( this.selectedNode ) || isNull( this.selectedNode ) ) {
       this.displayDialog = true;
-    } else {
-      this.removeOrListCategoryTree( 'delete', 'categories-tree/delete/' + this.selectedNode.id );
-    }
   }
 
   expandAll() {
@@ -246,16 +243,16 @@ export class HomeComponent implements OnInit {
 
   collapseAll() {
     this.categoryTree.forEach( node => {
-      this.expandRecursive(node, false);
-    } );
+      this.expandRecursive( node, false );
+    });
   }
 
-  private expandRecursive(node: CategoryTree, isExpand: boolean) {
+  private expandRecursive( node: CategoryTree, isExpand: boolean ) {
     node.expanded = isExpand;
     if (node.children) {
       node.children.forEach( childNode => {
         this.expandRecursive(childNode, isExpand);
-      } );
+      });
     }
   }
 
@@ -281,5 +278,15 @@ export class HomeComponent implements OnInit {
   private handlerErrorResponse( error ) {
     console.log(error);
     this.errors = error;
+  }
+
+  /**
+   * resetDataNode -
+   * @return void
+   */
+  private resetDataNode() {
+    this.selectedNode = null;
+    this.titleNode = '-';
+    this.dataNode = 'Не выбрано.';
   }
 }

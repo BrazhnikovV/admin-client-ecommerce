@@ -24,6 +24,12 @@ export class ModalDialogComponent implements OnInit {
   private display: boolean;
 
   /**
+   *  @var isDelete: boolean -
+   */
+  @Input()
+  private isDelete: boolean;
+
+  /**
    * constructor - конструктор
    */
   constructor() {}
@@ -38,5 +44,9 @@ export class ModalDialogComponent implements OnInit {
    */
   private onHide() {
     this.childEvent.emit( 'onHide' );
+  }
+
+  onYesDelete() {
+    this.childEvent.emit( 'onDeleteNode' );
   }
 }

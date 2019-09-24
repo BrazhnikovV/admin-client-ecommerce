@@ -35,7 +35,10 @@
   <app-modal-form [display]="display" [isUpdate]="isUpdate" (childEvent)="onChildEvent($event)"></app-modal-form>
 </div>
 <div class="p-grid">
-  <app-modal-dialog [display]="displayDialog" (childEvent)="onChildEvent($event)"></app-modal-dialog>
+  <app-modal-dialog
+    [display]="displayDialog"
+    [isDelete]="isDisabledDelete"
+    (childEvent)="onChildEvent($event)"></app-modal-dialog>
 </div>
 
 
