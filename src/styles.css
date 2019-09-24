@@ -51,3 +51,7 @@ table td.pi-align-center {
   font-size: 9pt;
   color: #666666;
 }
+
+button.ui-button {
+  margin-right: 5px;
+}

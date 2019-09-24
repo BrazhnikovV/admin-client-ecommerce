@@ -8,6 +8,8 @@ import { ValidatorMessageComponent } from '../../../../shared/components/validat
 import { isNull, isUndefined } from 'util';
 import { ModalFormComponent } from '../modal-form/modal-form.component';
 import { isArray } from 'rxjs/internal-compatibility';
+import CategoryTreeModule from '../../category-tree.module';
+import {TreeNode} from 'primeng/api';
 
 /**
  * @classdesc - HomeComponent корневой компонент функционального модуля
@@ -60,13 +62,6 @@ export class HomeComponent implements OnInit {
   private dataNode = 'Не выбрано.';
 
   /**
-   * @var viewChildren: QueryList<ValidatorMessageComponent> - список компонентов
-   * для отображения сообщений валидатора
-   */
-  @ViewChildren( ValidatorMessageComponent )
-  private viewChildren: QueryList<ValidatorMessageComponent>;
-
-  /**
    * @var viewChildrenFormDialog: QueryList<viewChildrenFormDialog> -
    */
   @ViewChildren( ModalFormComponent )
@@ -78,28 +73,27 @@ export class HomeComponent implements OnInit {
   private isUpdate: boolean;
 
   /**
+   * @var isUpdate: boolean -
+   */
+  private isDisabledDelete: boolean;
+
+  /**
+   * @var loadingTree: boolean -
+   */
+  loadingTree = true;
+
+  /**
    * constructor - конструктор
    * @param rpcService - сервис
    * @param router - маршрутизатор
    */
-  constructor( private rpcService: RpcService<CategoryTree[]>, private router: Router ) {}
+  constructor( private rpcService: RpcService<CategoryTree>, private router: Router ) {}
 
   /**
    * ngOnInit
    */
   ngOnInit() {
-    this.rpcService.makeRequest( 'get', 'categories-tree/list' ).subscribe(( response ) => {
-      if ( response !== undefined ) {
-        if ( response.hasOwnProperty('status') ) {
-          this.progress = response.message;
-        } else {
-          if ( response.type !== 0 && !response.hasOwnProperty('ok') ) {
-            this.categoryTree = response;
-            console.log(this.categoryTree);
-          }
-        }
-      }
-    });
+    this.removeOrListCategoryTree( 'get', 'categories-tree/list' );
   }
 
   /**
@@ -110,45 +104,30 @@ export class HomeComponent implements OnInit {
   private nodeSelect( $event: any ) {
     this.titleNode = $event.node.label;
     this.dataNode = $event.node.data;
-  }
-
-  /**
-   * inputChange - перехватываем событие набора символов в текстовых полях
-   * @return void
-   */
-  private inputChange() {
-    this.viewChildren.forEach( child => child.ngOnChanges() );
+    $event.node.children.length === 0 ? this.isDisabledDelete = true : this.isDisabledDelete = false;
   }
 
   /**
    * onUpdateNode - слушает событие клика по кнопке - обновить узел
    */
   private onUpdateNode() {
-    console.log('onUpdateNode ==>');
+
     if ( isUndefined( this.selectedNode ) || isNull( this.selectedNode ) ) {
       this.displayDialog = true;
     } else {
+      this.fillFieldsDialogForm();
       this.display = true;
     }
-    this.isUpdate = false;
+    this.isUpdate = true;
   }
 
   /**
    * onCreateNode - слушает событие клика по кнопке - добавить узел
    */
   private onCreateNode() {
-    console.log('onCreateNode ==>');
-    if ( !isUndefined( this.selectedNode ) && !isNull( this.selectedNode ) ) {
-      const formDialogControls = this.viewChildrenFormDialog.first.modalCategoryTreeForm.controls;
-      Object.keys(this.selectedNode).filter( filterKey => formDialogControls.hasOwnProperty( filterKey ) ).map( ( key) => {
-        formDialogControls[key].setValue( this.selectedNode[key] );
-      });
-    } else {
-      // console.log(this.categoryTree);
-    }
-
+    this.viewChildrenFormDialog.first.modalCategoryTreeForm.reset();
     this.display = true;
-    this.isUpdate = true;
+    this.isUpdate = false;
   }
 
   /**
@@ -158,43 +137,149 @@ export class HomeComponent implements OnInit {
    */
   private onChildEvent( $event: string ) {
     if ( $event === 'onUpdateNode' ) {
-      if ( isUndefined( this.selectedNode ) || isNull( this.selectedNode ) ) {
-        const parentId = this.categoryTree.filter( (catTree, index) => index === 0 )[0]['parentId'];
-        this.updateCategoryTree( parentId );
-
-      } else {
-        console.log(this.selectedNode);
+      if ( !isUndefined( this.selectedNode ) || !isNull( this.selectedNode ) ) {
+        this.updateCategoryTree();
       }
     } else if ( $event === 'onCreateNode' ) {
-      console.log('onCreateNode');
+      if ( isUndefined( this.selectedNode ) || isNull( this.selectedNode ) ) {
+        const parentId = this.categoryTree.filter( (catTree, index) => index === 0 )[0]['parentId'];
+        this.createCategoryTree( parentId );
+      } else {
+        this.createCategoryTree( this.selectedNode.id );
+      }
     } else {
-      console.log('else');
+      console.log('close');
     }
     this.displayDialog = false;
     this.display = false;
   }
 
   /**
-   * updateCategoryTree
+   * createCategoryTree
    * @param parentId -
    * @return void
    */
-  private updateCategoryTree( parentId: number ) {
+  private createCategoryTree( parentId: number ) {
 
     const modalCategoryTreeForm = this.viewChildrenFormDialog.first.modalCategoryTreeForm;
     modalCategoryTreeForm.get('parentId').setValue( parentId );
     this.rpcService.makePost( 'categories-tree/create', modalCategoryTreeForm.value  ).subscribe(
       response => {
-        setTimeout( m => {
-          if ( isArray(response) ) {
-            this.categoryTree = response;
-          }
-          this.router.navigate(['/categories-tree'] );
-        }, 300 );
+        this.handlerSuccessResponse( response );
       }, error => {
-        console.log(error);
-        this.errors = error;
+        this.handlerErrorResponse( error );
       }
     );
+  }
+
+  /**
+   * updateCategoryTree
+   * @return void
+   */
+  private updateCategoryTree() {
+
+    const modalCategoryTreeForm = this.viewChildrenFormDialog.first.modalCategoryTreeForm;
+    this.selectedNode.label = modalCategoryTreeForm.get('label').value;
+    this.selectedNode.data = modalCategoryTreeForm.get('data').value;
+
+    delete this.selectedNode['parent'];
+    delete this.selectedNode['children'];
+
+    this.rpcService.makePut( 'categories-tree/update', this.selectedNode  ).subscribe(
+      response => {
+        this.handlerSuccessResponse( response );
+      }, error => {
+        this.handlerErrorResponse( error );
+      }
+    );
+  }
+
+  /**
+   * fillFieldsDialogForm -
+   * @return void
+   */
+  private fillFieldsDialogForm() {
+    const formDialogControls = this.viewChildrenFormDialog.first.modalCategoryTreeForm.controls;
+    Object.keys(this.selectedNode).filter( filterKey => formDialogControls.hasOwnProperty( filterKey ) ).map( ( key) => {
+      formDialogControls[key].setValue( this.selectedNode[key] );
+    });
+  }
+
+  /**
+   * removeCategoryTree
+   * @return void
+   */
+  private removeOrListCategoryTree(  method: string, path: string) {
+    this.rpcService.makeRequest( method, path ).subscribe(( response ) => {
+      if ( response !== undefined ) {
+        if ( response.hasOwnProperty('status') ) {
+          this.progress = response.message;
+        } else {
+          if ( response.type !== 0 && !response.hasOwnProperty('ok') ) {
+            this.loadingTree = false;
+            this.categoryTree = response;
+          }
+        }
+      }
+    }, error => {
+      this.handlerErrorResponse( error );
+    });
+  }
+
+  /**
+   * onRemoveNode
+   * @return void
+   */
+  private onRemoveNode() {
+    if ( isUndefined( this.selectedNode ) || isNull( this.selectedNode ) ) {
+      this.displayDialog = true;
+    } else {
+      this.removeOrListCategoryTree( 'delete', 'categories-tree/delete/' + this.selectedNode.id );
+    }
+  }
+
+  expandAll() {
+    this.categoryTree.forEach( node => {
+      this.expandRecursive(node, true);
+    } );
+  }
+
+  collapseAll() {
+    this.categoryTree.forEach( node => {
+      this.expandRecursive(node, false);
+    } );
+  }
+
+  private expandRecursive(node: CategoryTree, isExpand: boolean) {
+    node.expanded = isExpand;
+    if (node.children) {
+      node.children.forEach( childNode => {
+        this.expandRecursive(childNode, isExpand);
+      } );
+    }
+  }
+
+  /**
+   * handlerSuccessResponse -
+   * @param response -
+   * @return void
+   */
+  private handlerSuccessResponse( response ) {
+    setTimeout( m => {
+      if ( isArray(response) ) {
+        this.categoryTree = response;
+      }
+      this.router.navigate(['/categories-tree'] );
+    }, 300 );
+  }
+
+  /**
+   * handlerErrorResponse -
+   * @param error -
+   * @return void
+   */
+  private handlerErrorResponse( error ) {
+    console.log(error);
+    this.errors = error;
   }
 }

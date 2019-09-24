@@ -6,14 +6,10 @@
       </div>
       <div class="p-col-12 p-md-12">
         <div class="p-grid">
-          <div class="p-col-12 p-md-1">
+          <div class="p-col-12 p-md-12">
             <p-button type="button" (onClick)="onCreateNode()" title="Создать узел" icon="pi pi-plus" label=""></p-button>
-          </div>
-          <div class="p-col-12 p-md-1">
             <p-button icon="pi pi-pencil" (onClick)="onUpdateNode()" title="Обновить узел" label=""></p-button>
-          </div>
-          <div class="p-col-12 p-md-1">
-            <p-button icon="pi pi-ban" title="Удалить" label=""></p-button>
+            <p-button [disabled]="!isDisabledDelete" icon="pi pi-ban" (onClick)="onRemoveNode()" title="Удалить" label=""></p-button>
           </div>
         </div>
       </div>
@@ -21,10 +17,17 @@
   </div>
   <div class="p-col-12 p-md-6">
     <p-tree
+      [loading]="loadingTree"
+      filterMode="strict"
       selectionMode="single"
+      [filter]="true"
       [value]="categoryTree"
       [(selection)]="selectedNode"
       (onNodeSelect)="nodeSelect($event)"></p-tree>
+    <div style="margin-top: 8px">
+      <button pButton type="button" label="Expand all" (click)="expandAll()" style="margin-right: .25em"></button>
+      <button pButton type="button" label="Collapse all" (click)="collapseAll()"></button>
+    </div>
   </div>
 </div>
 

@@ -1,5 +1,5 @@
 <form [formGroup]="modalCategoryTreeForm" (ngSubmit)="onSubmit()" class="form-horizontal p-col-12">
-  <p-dialog positionTop="50" (onHide)="onHide()" header="Title" [(visible)]="display" [modal]="true" [dismissableMask]="true">
+  <p-dialog positionTop="50" (onHide)="onHide()" header="Создать (обновить) раздел:" [(visible)]="display" [modal]="true" [dismissableMask]="true">
     <div class="p-grid">
       <div class="p-col-12">
         <app-validator-message [field]="modalCategoryTreeForm.get('label')"></app-validator-message>
@@ -16,8 +16,8 @@
       <div class="p-col-12 p-md-12">
         <div class="p-grid">
           <div class="p-col-12 p-md-6">
-            <button pButton type="submit" label="Создать" class="ui-button-success">
-            </button>
+            <button *ngIf="isUpdate" pButton type="submit" label="Обновить" class="ui-button-primary"></button>
+            <button *ngIf="!isUpdate" pButton type="submit" label="Создать" class="ui-button-success"></button>
           </div>
         </div>
       </div>

@@ -28,4 +28,9 @@ export interface CategoryTree {
    * @var children: []
    */
   children: [];
+
+  /**
+   * @var expanded: boolean
+   */
+  expanded: boolean;
 }
